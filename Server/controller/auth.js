@@ -50,7 +50,6 @@ export const login = async (req, res, next) => {
     } else if (!password) {
       res.status(422).send({ message: "password is mandatory" });
     }
-    console.log(user);
     if (user) {
       res.status(200).send({ token: getToken(user) });
     } else {
@@ -61,4 +60,36 @@ export const login = async (req, res, next) => {
   }
 };
 
+export const updateUser = async (req, res, next) => {
+  try {
+    const { _id, ...rest } = req.body;
+    if (!_id) {
+      res.status(422).send({ message: "Id is mandatory" });
+    }
+    const newUser = await userModel.findByIdAndUpdate(_id, rest);
+    if (newUser) {
+      res.status(200).send({ token: getToken(newUser) });
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
+export const deleteUser = async (req, res, next) => {
+  try {
+    const { _id, ...rest } = req.body;
+    if (!_id) {
+      res.status(422).send({ message: "Id is mandatory" });
+    }
+    const newUser = await userModel.findByIdAndDelete(_id);
+    if (newUser) {
+      res.status(204).send();
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
