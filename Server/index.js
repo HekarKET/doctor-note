@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.js";
+import patientRoute from "./routes/patient.js";
 
 const app = express();
 
@@ -25,10 +26,12 @@ dotenv.config();
 const PORT = process.env.PORT || 3005;
 
 app.use("/auth", authRoutes);
+app.use("/patient", patientRoute);
+
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500).send({ message: err.message || err });
-  console.log(err);
+  console.log(err  ) ;
 });
 
 Mongoose.connect(process.env.MONGODB_URL, {

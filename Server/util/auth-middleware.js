@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const isAuth = (req, res, next) => {
+  //token should be in header with key token
   const token = req.headers.token;
   if (token) {
     jwt.verify(token, process.env.PRIVATE_JWT_KEY, (err, decode) => {
