@@ -3,7 +3,12 @@ import patientModel from "../model/patient.js";
 
 export const getPatient = async (req, res, next) => {
   try {
-    const patients = await patientModel.find();
+    let page = req.headers.page;
+    page = Math.max(page || 0, 0);
+    const patients = await patientModel.find(null, null, {
+      skip: page * 5,
+      limit: 5,
+    });
 
     res.status(200).send({ patients });
   } catch (error) {
@@ -14,14 +19,20 @@ export const getPatient = async (req, res, next) => {
 export const getPatientByDoctor = async (req, res, next) => {
   try {
     const { _id, ...rest } = req.body;
+    let page = req.headers.page;
+    page = Math.max(page || 0, 0);
     if (!_id) {
       res.status(422).send({ message: "id is mandatory" });
     } else if (!mongoose.Types.ObjectId.isValid(_id)) {
       res.status(422).send({ message: "Invalid Id" });
     }
-    const patients = await patientModel.find({
-      "history.treatmentDetails.doctor": _id,
-    });
+    const patients = await patientModel.find(
+      {
+        "history.treatmentDetails.doctor": _id,
+      },
+      null,
+      { skip: page * 5, limit: 5 }
+    );
     res.status(200).send({ patients });
   } catch (error) {
     next(error);
@@ -214,5 +225,4 @@ export const deletePatientTreatmentDetails = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  
 };
