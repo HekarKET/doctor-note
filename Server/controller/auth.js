@@ -4,10 +4,19 @@ import doctorModel from "../model/doctor.js";
 
 export const getDoctors = async (req, res, next) => {
   try {
-    const doctors = await doctorModel
-      .find()
-      
+    const doctors = await doctorModel.find();
+
     res.status(200).send({ doctors });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getSingleDoctor = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const doctor = await doctorModel.findById(id);
+    res.status(200).send({ doctor });
   } catch (error) {
     next(error);
   }
