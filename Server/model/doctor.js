@@ -6,7 +6,7 @@ const schema = {
   //index unique because username should be unique
   userName: { type: String, require: true, index: { unique: true } },
   state: { type: String, require: true },
-  destrict: { type: String, require: true },
+  district: { type: String, require: true },
   address: { type: String, require: true },
   email: { type: String, require: true },
   //It will not be returned by default in the data when you fetch
