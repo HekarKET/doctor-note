@@ -10,9 +10,17 @@ export default function Home() {
         <div className={styles.background}>
           <div className={styles.login_container}>
             <div className={styles.left_content}>
-              {/* <Image src='/login-banner.jpg' height={"80vh"} width={"80vw"} layout='responsive' /> */}
+              <Image
+                src='/login-banner.jpg'
+                width='100%'
+                height='100%'
+                layout='fill'
+                objectFit='contain'
+              />
             </div>
-            <div className={styles.right_content}></div>
+            <div className={styles.right_content}>
+              <TextField/>
+            </div>
           </div>
         </div>
       </div>
