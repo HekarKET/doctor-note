@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = axios.create("http://localhost:3005/");
+const api = axios.create({ baseURL: "http://localhost:3005/" });
 
 api.interceptors.request.use(
   function (config) {
@@ -22,4 +22,5 @@ api.interceptors.response.use(
   }
 );
 
-export const fetchSingleUseApi = api.get();
+// export const fetchSingleUseApi = api.get();
+export const loginUserApi = (data) => api.post("/auth/login", data);

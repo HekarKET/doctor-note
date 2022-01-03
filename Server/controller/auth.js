@@ -74,7 +74,7 @@ export const login = async (req, res, next) => {
     if (doctor) {
       res.status(200).send({ token: getToken(doctor) });
     } else {
-      res.status(404).send({ message: "user not found" });
+      res.status(403).send({ message: "password is incorrect" });
     }
   } catch (error) {
     next(error);
