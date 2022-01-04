@@ -1,5 +1,5 @@
 .background {
-  background-color: #e2e2e2 ;
+  background-color: #e2e2e2;
   height: 100%;
   width: 100%;
   display: flex;
@@ -40,13 +40,12 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
   align-items: center;
   justify-content: center;
   background-color: rgb(217, 217, 255);
+  gap: 10px;
   border-radius: 0px 50px 50px 0px;
 }
-
 
 .right_content button {
   font-size: 20px;
@@ -58,3 +57,21 @@
   color: white;
 }
 
+.login_content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+}
+
+.dont_have_accont {
+  color: rgb(20 165 64);
+  cursor: pointer;
+
+}
+
+.error {
+  color: red;
+}

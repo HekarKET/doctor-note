@@ -38,23 +38,23 @@ export const register = async (req, res, next) => {
       res.status(422).send({ message: "email is mandatory" });
     } else if (!body.password) {
       res.status(422).send({ message: "password is mandatory" });
-    } else if (!body.destrict) {
-      res.status(422).send({ message: "destrict is mandatory" });
+    } else if (!body.district) {
+      res.status(422).send({ message: "district is mandatory" });
     } else if (!body.state) {
       res.status(422).send({ message: "state is mandatory" });
     } else {
       let exist = await doctorModel.findOne({ email: body.email });
       if (exist != null) {
         //406 indicates not acceptable
-        res.status(406).send({ error: "Email already exist" });
+        res.status(406).send({ message: "Email already exist" });
       }
       exist = await doctorModel.findOne({ userName: body.userName });
       if (exist != null) {
-        res.status(406).send({ error: "User Name already exist" });
+        res.status(406).send({ message: "User Name already exist" });
       } else {
         const newUser = new doctorModel(body);
         await newUser.save();
-        res.status(201).send({ token: getToken(newUser) });
+        res.status(200).send({ token: getToken(newUser) });
       }
     }
   } catch (error) {
@@ -72,6 +72,7 @@ export const login = async (req, res, next) => {
       res.status(422).send({ message: "password is mandatory" });
     }
     if (doctor) {
+      // console.log(doctor);
       res.status(200).send({ token: getToken(doctor) });
     } else {
       res.status(403).send({ message: "password is incorrect" });
@@ -87,12 +88,12 @@ export const updateDoctor = async (req, res, next) => {
     const { _id, ...rest } = req.body;
     if (!_id) {
       res.status(422).send({ message: "Id is mandatory" });
-    } else if (!mongoose.Types.ObjectId.isValid(id)) {
+    } else if (!mongoose.Types.ObjectId.isValid(_id)) {
       res.status(422).send({ message: "Invalid Id" });
-    } else if (_id == req.user._id) {
+    } else if (_id !== req.user._id) {
       res.status(401).send({ message: "Invalid token" });
     }
-    const newUser = await doctorModel.findByIdAndUpdate(_id, rest);
+    const newUser = await doctorModel.findByIdAndUpdate(_id, rest, {new:true});
     if (newUser) {
       res.status(200).send({ token: getToken(newUser) });
     } else {

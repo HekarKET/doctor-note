@@ -1,6 +1,7 @@
 // import Head from 'next/head'
 import { TextField } from "@material-ui/core";
-import { useState } from "react";
+import Router from "next/router";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { loginUserAction } from "../redux/actions/userActions";
@@ -20,12 +21,28 @@ export default function Home() {
     } else {
       const data = { userName, password };
       dispatch(loginUserAction(data));
+      setuserName("");
+      setpassword("");
     }
   };
 
   const checkIncomplete = (variable) => {
     return variable === "" && incomplete;
   };
+
+  const redirectRegister = () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "/register";
+    }
+  };
+
+  useEffect(() => {
+    if (userReducer.success) {
+      if (typeof window !== "undefined") {
+        Router.push("/profile");
+      }
+    }
+  }, [userReducer.success]);
 
   return (
     <>
@@ -36,42 +53,49 @@ export default function Home() {
               <img src='/login-banner.jpg' alt='login-banner' />
             </div>
             <div className={styles.right_content}>
-              <TextField
-                variant='filled'
-                color='primary'
-                placeholder='Username'
-                error={checkIncomplete(userName)}
-                helperText={
-                  checkIncomplete(userName) ? "Please enter username" : ""
-                }
-                value={userName}
-                onChange={(e) => setuserName(e.target.value)}
-                fullWidth
-              />
-              <TextField
-                variant='filled'
-                color='primary'
-                error={checkIncomplete(password)}
-                helperText={
-                  checkIncomplete(password) ? "Please enter password" : ""
-                }
-                placeholder='Password'
-                value={password}
-                onChange={(e) => setpassword(e.target.value)}
-                fullWidth
-              />
-              <button
-                size='large'
-                color='primary'
-                variant='contained'
-                fullWidth
-                onClick={handleLogin}
-              >
-                LOGIN
-              </button>
+              <div className={styles.login_content}>
+                <TextField
+                  variant='filled'
+                  color='primary'
+                  placeholder='Username'
+                  error={checkIncomplete(userName)}
+                  helperText={
+                    checkIncomplete(userName) ? "Please enter username" : ""
+                  }
+                  value={userName}
+                  onChange={(e) => setuserName(e.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  variant='filled'
+                  color='primary'
+                  error={checkIncomplete(password)}
+                  helperText={
+                    checkIncomplete(password) ? "Please enter password" : ""
+                  }
+                  placeholder='Password'
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
+                  fullWidth
+                />
+                <button
+                
 
-              <span>{userReducer.user.name}</span>
-              <span>{userReducer.error && "Incorrect password"}</span>
+                  onClick={handleLogin}
+                >
+                  LOGIN
+                </button>
+              </div>
+
+              <span
+                className={styles.dont_have_accont}
+                onClick={redirectRegister}
+              >
+                {"Don't have account? Sign up here"}
+              </span>
+              <span className={styles.error}>
+                {userReducer.error && "Incorrect Password or Username"}
+              </span>
             </div>
           </div>
         </div>

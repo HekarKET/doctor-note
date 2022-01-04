@@ -9,6 +9,7 @@ export const isAuth = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.PRIVATE_JWT_KEY, (err, decode) => {
       if (err) {
+        console.log(err);
         res.status(401).send({ message: "Invalid token" });
       } else {
         req.user = decode;
@@ -30,7 +31,7 @@ export const getToken = (user) => {
       address: user.address,
       userName: user.userName,
       state: user.state,
-      destric: user.destric,
+      district: user.district,
     },
     process.env.PRIVATE_JWT_KEY,
     {
