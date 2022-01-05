@@ -6,15 +6,20 @@ const schema = mongoose.Schema({
   address: String,
   history: [
     {
-      diagnosis: { type: String },
-      treatmentDetails: {
-        doctor: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          required: true,
+      type: new mongoose.Schema(
+        {
+          diagnosis: { type: String },
+          treatmentDetails: {
+            doctor: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "user",
+              required: true,
+            },
+            treatment: String,
+          },
         },
-        treatment: String,
-      },
+        { timestamps: true }
+      ),
     },
   ],
 });
@@ -22,3 +27,15 @@ const schema = mongoose.Schema({
 export const patientSchema = mongoose.Schema(schema, { timestamps: true });
 const patientModel = mongoose.model("patient", patientSchema);
 export default patientModel;
+
+biddings: [
+  {
+    type: new mongoose.Schema(
+      {
+        biddingId: String,
+        biddingPoints: Number,
+      },
+      { timestamps: true }
+    ),
+  },
+];

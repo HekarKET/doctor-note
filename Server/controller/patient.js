@@ -6,8 +6,8 @@ export const getPatient = async (req, res, next) => {
     let page = req.headers.page;
     page = Math.max(page || 0, 0);
     const patients = await patientModel.find(null, null, {
-      skip: page * 5,
-      limit: 5,
+      skip: page * 10,
+      limit: 10,
     });
 
     res.status(200).send({ patients });
@@ -18,6 +18,7 @@ export const getPatient = async (req, res, next) => {
 
 export const getPatientByDoctor = async (req, res, next) => {
   try {
+
     const { _id, ...rest } = req.body;
     let page = req.headers.page;
     page = Math.max(page || 0, 0);
@@ -26,14 +27,40 @@ export const getPatientByDoctor = async (req, res, next) => {
     } else if (!mongoose.Types.ObjectId.isValid(_id)) {
       res.status(422).send({ message: "Invalid Id" });
     }
-    const patients = await patientModel.find(
+    // const patients = await patientModel.find(
+    //   {
+    //     "history.treatmentDetails.doctor": _id,
+    //   },
+    //   null,
+    //   { skip: page * 5, limit: 5 }
+    // );
+
+
+
+    const patients = await patientModel.aggregate([
+      { $unwind: "$history" },
       {
-        "history.treatmentDetails.doctor": _id,
+        $match: {
+          "history.treatmentDetails.doctor": mongoose.Types.ObjectId(_id),
+        },
       },
-      null,
-      { skip: page * 5, limit: 5 }
-    );
-    res.status(200).send({ patients });
+      {
+        $limit: 10,
+      },
+      {
+        $skip: page * 10,
+      },
+    ]);
+
+
+
+
+    const data = { patients };
+    if (page === 0) {
+      const total = await patientModel.countDocuments();
+      data.total = total;
+    }
+    res.status(200).send(data);
   } catch (error) {
     next(error);
   }
