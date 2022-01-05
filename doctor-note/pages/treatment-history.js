@@ -1,9 +1,9 @@
-import { Table } from "antd";
+import { Table, Modal } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { fetchPatientAction } from "../redux/actions/patientAction";
+import { deletPatientDetailsAction, fetchPatientAction } from "../redux/actions/patientAction";
 
 export default function treatmentHistory() {
   const patientReducer = useSelector((state) => state.patientReducer);
@@ -11,8 +11,21 @@ export default function treatmentHistory() {
   const [patients, setpatients] = useState([]);
   const [total, settotal] = useState(0);
   const [count, setcount] = useState(0);
+  const [showModal, setshowModal] = useState(false);
   const pageSize = 10;
   const dispatch = useDispatch();
+
+  const deleteTreatmentDetail = (id, diagnosis_id) => {
+    const data = {
+      _id: id,
+      diagnosis_id
+    }
+    dispatch(deletPatientDetailsAction(data))
+  };
+  const updateTreatmentDetail = (id,diagnosis_id) => {
+    console.log({id,diagnosis_id});
+
+  };
 
   const columns = [
     {
@@ -35,10 +48,55 @@ export default function treatmentHistory() {
       render: (text, record) =>
         moment(text.treatmentDetails.updatedAt).format("DD MMMM YYYY"),
     },
+    {
+      title: "Delete",
+      render: (text, record) => (
+        <button
+          className='delete-btn'
+          onClick={() => deleteTreatmentDetail(text._id, record.history._id)}
+        >
+          Delete
+        </button>
+      ),
+    },
+    {
+      title: "Update",
+      render: (text, record) => (
+        <button
+          className='update-btn'
+          onClick={() => updateTreatmentDetail(text._id, record.history._id)}
+        >
+          Update
+        </button>
+      ),
+    },
   ];
 
+  const closeModal = () => {
+    showModal(false);
+  };
+
+  const openModal = () => {
+    showModal(false);
+  };
+
+  const patientModal = () => {
+    return (
+      <Modal
+        title={"Patient diagnosis"}
+        visible={showModal}
+        onOk={() => {
+          // handleSubResourceInfoModal();
+          // handleOnOkSubResource();
+        }}
+        onCancel={closeModal}
+        width={1500}
+      ></Modal>
+    );
+  };
+
   useEffect(() => {
-    dispatch(fetchPatientAction({ _id: userReducer.user._id }, count));
+    dispatch(fetchPatientAction({ _id: userReducer.user._id }, count-1));
   }, [count]);
 
   useEffect(() => {
@@ -46,41 +104,25 @@ export default function treatmentHistory() {
     settotal(patientReducer.total);
   }, [patientReducer.patients.length]);
 
+
   return (
     <>
       <div className='container'>
         <div className='dashboard-container'>
           <div className='content'>
-
-  
-
             <Table
               pagination={{
-                defaultCurrent: 0,
+                defaultCurrent: 1,
                 onChange: (page) => setcount(page),
                 pageSize: pageSize,
                 total: total,
                 showSizeChanger: false,
               }}
-              // onRow={(r, i) => ({
-              //   onClick: (e) => {
-              //     if (
-              //       e.target.id !== "btn-delete" &&
-              //       e.target.id !== "btn-reject" &&
-              //       e.target.id !== "btn-edit" &&
-              //       e.target.id !== "btn-accept"
-              //     ) {
-              //       // console.log({ e : e.target.id});
-              //       showModal();
-              //       setmodalInfo(r);
-              //     }
-              //   },
-              // })}
-              style={{fontSize: 20}}
+              style={{  width: "100%" }}
               bordered
               columns={columns}
               dataSource={patients.map((item) => {
-                item.key = item._id;
+                item.key = item.history._id;
                 return item;
               })}
             />

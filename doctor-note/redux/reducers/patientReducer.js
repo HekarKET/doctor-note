@@ -1,4 +1,7 @@
-import { FETCH_PATIENTS } from "../constants/constant";
+import {
+  DELETE_PATIENT_TREATMENT,
+  FETCH_PATIENTS,
+} from "../constants/constant";
 
 const initialState = {
   error: false,
@@ -13,14 +16,23 @@ export function patientReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PATIENTS:
       return {
-        error: action.error,
-        loading: action.loading,
-        sucesss: action.sucesss,
-        patients: action.patients,
-        currentPatient: action.currentPatient,
-        total: action.total,
+        error: action.error || state.error,
+        loading: action.loading || state.loading,
+        sucesss: action.sucesss || state.sucesss,
+        patients: action.patients || state.patients,
+        currentPatient: action.currentPatient || state.currentPatient,
+        total: action.total == -1 ? state.total : action.total || state.total,
       };
 
+    case DELETE_PATIENT_TREATMENT:
+      return {
+        error: action.error || state.error,
+        loading: action.loading || state.loading,
+        sucesss: action.sucesss || state.sucesss,
+        patients: action.patients || state.patients,
+        currentPatient: action.currentPatient || state.currentPatient,
+        total: state.total-1,
+      };
     default:
       return state;
   }

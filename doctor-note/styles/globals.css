@@ -19,6 +19,7 @@ a {
 :root {
   --gray: #e2e2e2;
   --light-blue: rgb(217, 217, 255);
+  --very-light-blue: #bbbac7;
   --light-green: rgb(20 165 64);
 }
 
@@ -48,7 +49,6 @@ nav {
   font-size: 20px;
   float: left;
   box-shadow: 0 5px 8px 0 #333;
-
 }
 
 nav .logo-website {
@@ -113,19 +113,19 @@ nav ul .active {
 
 .content {
   border: solid 1px var(--gray);
-  height: 80%;
+  height: 94%;
   width: 100%;
-  margin-top: 15%;
+  margin-top: 6%;
   padding: 15px;
   background: white;
   box-shadow: 0 5px 8px 0 #333;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.content button{
+.content button {
   font-size: 20px;
   width: 100%;
   padding: 15px 10px;
@@ -133,4 +133,26 @@ justify-content: space-evenly;
   border-radius: 10px;
   border: none;
   color: white;
+}
+
+.content .delete-btn {
+  background: white;
+  color: red;
+  border: solid 1px red;
+  margin: 15;
+  padding: 0px;
+  padding-inline: 10;
+}
+
+.content .update-btn {
+  background: white;
+  color: black;
+  border: solid 1px rgb(1, 47, 1);
+  margin: 15;
+  padding: 0px;
+  padding-inline: 5;
+}
+
+.ant-table {
+  font-size: 20px !important;
 }

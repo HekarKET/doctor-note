@@ -5,7 +5,7 @@ const api = axios.create({ baseURL: "http://localhost:3005/" });
 api.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem("user");
-    config.headers = { token: token };
+    config.headers.token = token;
     return config;
   },
   function (error) {
@@ -30,3 +30,10 @@ export const updateUserApi = (data) => api.post("/auth/update", data);
 
 
 export const fetchPatientsApi = (data, count) => api.post("/patient/doctor", data, { headers: { page: count } });
+export const deletePatientTreatmentApi = (data, count) => api.post("/patient/delete/diagnosis", data);
+export const updatePatientTreatmentApi = (data, count) => api.post("/patient/update/diagnosis", data);
+
+
+
+
+/* {{url}}/patient/delete/diagnosis */
