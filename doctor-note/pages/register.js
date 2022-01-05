@@ -64,14 +64,24 @@ export default function register() {
   }, [userReducer.success]);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (!isEmpty(userReducer.user)) {
+        window.location.href = "/profile";
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     let list = data.map((item) => item.state);
     setstateList(list);
   }, []);
 
   useEffect(() => {
     let list = data.filter((item) => item.state === state)[0];
-    // console.log({ list, state });
-    setdistrictList(list.districts);
+    if(list){
+      setdistrictList(list.districts);
+    }
+    
   }, [state]);
 
   return (

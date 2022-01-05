@@ -75,14 +75,15 @@ const profile = () => {
 
   useEffect(() => {
     let list = data.filter((item) => item.state === state)[0];
-    // console.log({ list, state });
-    setdistrictList(list.districts);
+    if (list) {
+      setdistrictList(list.districts);
+    }
   }, [state]);
 
   return (
     <>
       <div className='container'>
-        <div className='profile-container'>
+        <div className='dashboard-container'>
           <div className='content'>
             <TextField
               variant='filled'

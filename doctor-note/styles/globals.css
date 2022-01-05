@@ -92,6 +92,7 @@ nav ul li {
   width: 100%;
   padding: 15px;
   border-radius: 0px 50px 50px 0px;
+  cursor: pointer;
   /* background-color: rgb(145, 145, 243);; */
 }
 
@@ -102,7 +103,7 @@ nav ul .active {
   background-color: rgb(145, 145, 243);
 }
 
-.profile-container {
+.dashboard-container {
   padding: 15px;
   background-color: var(--light-blue);
   width: 75%;

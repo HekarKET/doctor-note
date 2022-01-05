@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { loginUserAction } from "../redux/actions/userActions";
 import styles from "../styles/Home.module.css";
+import { isAuth, isEmpty } from "../util/util";
 
 //This page will be default login page
 export default function Home() {
@@ -44,6 +45,14 @@ export default function Home() {
     }
   }, [userReducer.success]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if(!isEmpty(userReducer.user)){
+        window.location.href = '/profile'
+      }
+    }
+  }, []);
+
   return (
     <>
       <div className='container'>
@@ -78,13 +87,7 @@ export default function Home() {
                   onChange={(e) => setpassword(e.target.value)}
                   fullWidth
                 />
-                <button
-                
-
-                  onClick={handleLogin}
-                >
-                  LOGIN
-                </button>
+                <button onClick={handleLogin}>LOGIN</button>
               </div>
 
               <span

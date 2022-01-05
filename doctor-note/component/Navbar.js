@@ -1,4 +1,5 @@
-import { useRouter } from "next/router";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -14,6 +15,7 @@ export default function Navbar() {
       window.location.href = "/";
     }
   };
+  
 
   useEffect(() => {
     setcurrentRoute(router.pathname.replace("/", ""));
@@ -38,7 +40,10 @@ export default function Navbar() {
         </div>
         <hr />
         <ul>
+        <Link href={'treatment-history'}>
+
           <li
+            // onClick={()=>navTo("treatment-history")}
             className={
               currentRoute === "treatment-history"
                 ? "nav-item active"
@@ -47,14 +52,21 @@ export default function Navbar() {
           >
             Treatment History
           </li>
+          </Link>
+
           {/* <li className={currentRoute === 'add-treatmen' ? 'nav-item active' : 'nav-item'}>Add Treatment</li> */}
+          <Link href={'profile'}>
           <li
+          // onClick={()=>navTo("profile")}
             className={
               currentRoute === "profile" ? "nav-item active" : "nav-item"
             }
           >
+            
             Profile
           </li>
+          </Link>
+
           <li
             onClick={handleLogout}
             className={

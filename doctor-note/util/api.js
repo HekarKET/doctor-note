@@ -26,3 +26,7 @@ api.interceptors.response.use(
 export const loginUserApi = (data) => api.post("/auth/login", data);
 export const registerUserApi = (data) => api.post("/auth/register", data);
 export const updateUserApi = (data) => api.post("/auth/update", data);
+
+
+
+export const fetchPatientsApi = (data, count) => api.post("/patient/doctor", data, { headers: { page: count } });
