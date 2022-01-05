@@ -18,7 +18,6 @@ export const getPatient = async (req, res, next) => {
 
 export const getPatientByDoctor = async (req, res, next) => {
   try {
-
     const { _id, ...rest } = req.body;
     let page = req.headers.page;
     page = Math.max(page || 0, 0);
@@ -27,15 +26,8 @@ export const getPatientByDoctor = async (req, res, next) => {
     } else if (!mongoose.Types.ObjectId.isValid(_id)) {
       res.status(422).send({ message: "Invalid Id" });
     }
-    // const patients = await patientModel.find(
-    //   {
-    //     "history.treatmentDetails.doctor": _id,
-    //   },
-    //   null,
-    //   { skip: page * 5, limit: 5 }
-    // );
 
-
+    let skip = page === 0 ? 0 : page * 10;
 
     const patients = await patientModel.aggregate([
       { $unwind: "$history" },
@@ -45,20 +37,27 @@ export const getPatientByDoctor = async (req, res, next) => {
         },
       },
       {
-        $limit: 10,
+        $sort: { history: -1 },
       },
       {
-        $skip: page * 10,
+        $skip: skip,
+      },
+      {
+        $limit: 10,
       },
     ]);
 
-
-
-
     const data = { patients };
     if (page === 0) {
-      const total = await patientModel.countDocuments();
-      data.total = total;
+      const total = await patientModel.aggregate([
+        { $unwind: "$history" },
+        {
+          $match: {
+            "history.treatmentDetails.doctor": mongoose.Types.ObjectId(_id),
+          },
+        },
+      ]);
+      data.total = total.length;
     }
     res.status(200).send(data);
   } catch (error) {
@@ -236,18 +235,33 @@ export const deletePatientTreatmentDetails = async (req, res, next) => {
       if (!patient) {
         res.status(404).send({ message: "patient not found" });
       }
-
+      let len = patient.history.length;
       let patientHistory = patient.history.filter(
         (item) => !item._id.equals(diagnosis_id)
       );
+      console.log(len + " " + patientHistory.length + " " + patientHistory);
+      if (len === patientHistory.length) {
+        res.status(404).send({
+          message: "diagnosis not found",
+        });
+        res.end();
+      }
+
       let patientUpdated = patient;
       patientUpdated.history = patientHistory;
       patientUpdated = await patientModel.findByIdAndUpdate(_id, patient, {
         new: true,
       });
-      res.status(202).send({
-        message: "diagnosis succesfully deleted",
-      });
+
+      if (patientUpdated) {
+        res.status(202).send({
+          message: "diagnosis succesfully deleted",
+        });
+      } else {
+        res.status(404).send({
+          message: "patient not found",
+        });
+      }
     }
   } catch (error) {
     next(error);
