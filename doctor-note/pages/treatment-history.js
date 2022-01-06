@@ -1,9 +1,13 @@
-import { Table, Modal } from "antd";
+import { TextField } from "@material-ui/core";
+import { Table, Modal, DatePicker } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { deletPatientDetailsAction, fetchPatientAction } from "../redux/actions/patientAction";
+import {
+  deletPatientDetailsAction,
+  fetchPatientAction,
+} from "../redux/actions/patientAction";
 
 export default function treatmentHistory() {
   const patientReducer = useSelector((state) => state.patientReducer);
@@ -11,6 +15,9 @@ export default function treatmentHistory() {
   const [patients, setpatients] = useState([]);
   const [total, settotal] = useState(0);
   const [count, setcount] = useState(0);
+  const [patientNameFilter, setpatientNameFilter] = useState("");
+  const [diagnosisFilter, setdiagnosisFilter] = useState("");
+  const [dateFilter, setdateFilter] = useState();
   const [showModal, setshowModal] = useState(false);
   const pageSize = 10;
   const dispatch = useDispatch();
@@ -18,13 +25,12 @@ export default function treatmentHistory() {
   const deleteTreatmentDetail = (id, diagnosis_id) => {
     const data = {
       _id: id,
-      diagnosis_id
-    }
-    dispatch(deletPatientDetailsAction(data))
+      diagnosis_id,
+    };
+    dispatch(deletPatientDetailsAction(data));
   };
-  const updateTreatmentDetail = (id,diagnosis_id) => {
-    console.log({id,diagnosis_id});
-
+  const updateTreatmentDetail = (id, diagnosis_id) => {
+    console.log({ id, diagnosis_id });
   };
 
   const columns = [
@@ -95,8 +101,28 @@ export default function treatmentHistory() {
     );
   };
 
+  
+  
+  const handleSearch = () => {
+    let data = {
+      _id: userReducer.user._id,
+      diagnosis: diagnosisFilter !== "" ? diagnosisFilter : null,
+      patientName: patientNameFilter !== "" ? patientNameFilter : null,
+      startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
+      endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
+    };
+    dispatch(fetchPatientAction(data, count - 1));
+  };
+  
   useEffect(() => {
-    dispatch(fetchPatientAction({ _id: userReducer.user._id }, count-1));
+    let data = {
+      _id: userReducer.user._id,
+      diagnosis: diagnosisFilter !== "" ? diagnosisFilter : null,
+      patientName: patientNameFilter !== "" ? patientNameFilter : null,
+      startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
+      endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
+    };
+    dispatch(fetchPatientAction( data , count - 1));
   }, [count]);
 
   useEffect(() => {
@@ -104,12 +130,38 @@ export default function treatmentHistory() {
     settotal(patientReducer.total);
   }, [patientReducer.patients.length]);
 
-
   return (
     <>
       <div className='container'>
         <div className='dashboard-container'>
-          <div className='content'>
+          <div className='content treatment-option'>
+            <div className='filters'>
+              <TextField
+                variant='filled'
+                color='primary'
+                placeholder='Patient Name'
+                value={patientNameFilter}
+                onChange={(e) => setpatientNameFilter(e.target.value)}
+                fullWidth
+              />
+              <TextField
+                variant='filled'
+                color='primary'
+                placeholder='Diagnosis'
+                value={diagnosisFilter}
+                onChange={(e) => setdiagnosisFilter(e.target.value)}
+                fullWidth
+              />
+
+              <DatePicker.RangePicker
+                format={"DD/MMMM/YYYY"}
+                onChange={(datesMoment, value) => setdateFilter(datesMoment)}
+                size={"large"}
+              />
+
+              <button onClick={handleSearch} className='search-btn'>Search</button>
+            </div>
+
             <Table
               pagination={{
                 defaultCurrent: 1,
@@ -118,7 +170,7 @@ export default function treatmentHistory() {
                 total: total,
                 showSizeChanger: false,
               }}
-              style={{  width: "100%" }}
+              style={{ width: "100%" }}
               bordered
               columns={columns}
               dataSource={patients.map((item) => {

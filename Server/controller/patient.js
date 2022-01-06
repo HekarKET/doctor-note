@@ -44,8 +44,6 @@ export const getPatientByDoctor = async (req, res, next) => {
         $gte: new Date(startString),
         $lte: new Date(endString),
       };
-
-      console.log(startString, endString);
     }
 
     let skip = page === 0 ? 0 : page * 10;
