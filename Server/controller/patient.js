@@ -26,16 +26,35 @@ export const getPatientByDoctor = async (req, res, next) => {
     } else if (!mongoose.Types.ObjectId.isValid(_id)) {
       res.status(422).send({ message: "Invalid Id" });
     }
+    let query = {
+      "history.treatmentDetails.doctor": mongoose.Types.ObjectId(_id),
+    };
+    if (rest.patientName) {
+      query.patientName = rest.patientName;
+    }
+
+    if (rest.diagnosis) {
+      query["history.diagnosis"] = rest.diagnosis;
+    }
+
+    if (rest.startDate && rest.endDate) {
+      const startString = new Date(rest.startDate).toISOString();
+      const endString = new Date(rest.endDate).toISOString(); //"01/07/2022" -> month/day/year
+      query["history.createdAt"] = {
+        $gte: new Date(startString),
+        $lte: new Date(endString),
+      };
+
+      console.log(startString, endString);
+    }
 
     let skip = page === 0 ? 0 : page * 10;
-
     const patients = await patientModel.aggregate([
       { $unwind: "$history" },
       {
-        $match: {
-          "history.treatmentDetails.doctor": mongoose.Types.ObjectId(_id),
-        },
+        $match: query,
       },
+
       {
         $sort: { history: -1 },
       },
@@ -52,9 +71,7 @@ export const getPatientByDoctor = async (req, res, next) => {
       const total = await patientModel.aggregate([
         { $unwind: "$history" },
         {
-          $match: {
-            "history.treatmentDetails.doctor": mongoose.Types.ObjectId(_id),
-          },
+          $match: query,
         },
       ]);
       data.total = total.length;
