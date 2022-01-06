@@ -40,31 +40,40 @@ export default function Navbar() {
         </div>
         <hr />
         <ul>
-        <Link href={'treatment-history'}>
+          <Link href={"treatment-history"}>
+            <li
+              // onClick={()=>navTo("treatment-history")}
+              className={
+                currentRoute === "treatment-history"
+                  ? "nav-item active"
+                  : "nav-item"
+              }
+            >
+              Treatment History
+            </li>
+          </Link>
 
-          <li
-            // onClick={()=>navTo("treatment-history")}
-            className={
-              currentRoute === "treatment-history"
-                ? "nav-item active"
-                : "nav-item"
-            }
-          >
-            Treatment History
-          </li>
+          <Link href={"patient-treatment"}>
+            <li
+              // onClick={()=>navTo("profile")}
+              className={
+                currentRoute === "patient-treatment" ? "nav-item active" : "nav-item"
+              }
+            >
+               Patient/Treatment
+            </li>
           </Link>
 
           {/* <li className={currentRoute === 'add-treatmen' ? 'nav-item active' : 'nav-item'}>Add Treatment</li> */}
-          <Link href={'profile'}>
-          <li
-          // onClick={()=>navTo("profile")}
-            className={
-              currentRoute === "profile" ? "nav-item active" : "nav-item"
-            }
-          >
-            
-            Profile
-          </li>
+          <Link href={"profile"}>
+            <li
+              // onClick={()=>navTo("profile")}
+              className={
+                currentRoute === "profile" ? "nav-item active" : "nav-item"
+              }
+            >
+              Profile
+            </li>
           </Link>
 
           <li

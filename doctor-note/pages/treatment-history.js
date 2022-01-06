@@ -8,8 +8,9 @@ import {
   deletPatientDetailsAction,
   fetchPatientAction,
 } from "../redux/actions/patientAction";
+import withAuth from "../util/auth";
 
-export default function treatmentHistory() {
+const treatmentHistory = () => {
   const patientReducer = useSelector((state) => state.patientReducer);
   const userReducer = useSelector((state) => state.userReducer);
   const [patients, setpatients] = useState([]);
@@ -101,8 +102,6 @@ export default function treatmentHistory() {
     );
   };
 
-  
-  
   const handleSearch = () => {
     let data = {
       _id: userReducer.user._id,
@@ -113,7 +112,7 @@ export default function treatmentHistory() {
     };
     dispatch(fetchPatientAction(data, count - 1));
   };
-  
+
   useEffect(() => {
     let data = {
       _id: userReducer.user._id,
@@ -122,7 +121,7 @@ export default function treatmentHistory() {
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
-    dispatch(fetchPatientAction( data , count - 1));
+    dispatch(fetchPatientAction(data, count - 1));
   }, [count]);
 
   useEffect(() => {
@@ -159,7 +158,9 @@ export default function treatmentHistory() {
                 size={"large"}
               />
 
-              <button onClick={handleSearch} className='search-btn'>Search</button>
+              <button onClick={handleSearch} className='search-btn'>
+                Search
+              </button>
             </div>
 
             <Table
@@ -183,4 +184,6 @@ export default function treatmentHistory() {
       </div>
     </>
   );
-}
+};
+
+export default withAuth(treatmentHistory);
