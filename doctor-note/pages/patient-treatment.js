@@ -6,6 +6,7 @@ import { Autocomplete } from "@material-ui/lab";
 import { useDispatch } from "react-redux";
 import {
   addPatientAction,
+  addTreatmentAction,
   fetchPatientNamesAction,
 } from "../redux/actions/patientAction";
 import { useSelector } from "react-redux";
@@ -15,7 +16,14 @@ const addPatient = () => {
   const [patientNames, setpatientNames] = useState([]);
   const [ageRange, setageRange] = useState("");
   const [address, setaddress] = useState("");
+
+  const [patientName2, setpatientName2] = useState("");
+  const [treatment, settreatment] = useState("");
+  const [diagnosis, setdiagnosis] = useState("");
+
   const [incomplete, setincomplete] = useState(false);
+  const [incomplete2, setincomplete2] = useState(false);
+
   const userReducer = useSelector((state) => state.userReducer);
   const patientReducer = useSelector((state) => state.patientReducer);
   const dispatch = useDispatch();
@@ -45,6 +53,24 @@ const addPatient = () => {
   useEffect(() => {
     setpatientNames(patientReducer.patientNames);
   }, [patientReducer.patientNames.length]);
+
+  const handleAddTreatment = () => {
+    
+    if (patientName2 === "" && treatment === "" && diagnosis === "") {
+      setincomplete2(true);
+    } else {
+      const data = {
+        patientName2,
+        treatment,
+        diagnosis
+      };
+      dispatch(addTreatmentAction(data));
+    }
+  }
+
+  const checkIncomplete2 = (variable) => {
+    return variable === "" && incomplete2;
+  };
 
   return (
     <>
@@ -87,23 +113,49 @@ const addPatient = () => {
               onChange={(e) => setageRange(e.target.value)}
               fullWidth
             />
-            <button className='add-btn'>Add Treatment</button>
+
+            <button className='add-btn' onClick={handleAddTreatment}>Add Treatment</button>
             <TextField
-              placeholder='Patient ID'
+              placeholder='Patient Name*'
               variant='filled'
               color='primary'
+              error={checkIncomplete2(patientName2)}
+              helperText={
+                checkIncomplete2(patientName2)
+                  ? "Patient Name is Mandatory"
+                  : null
+              }
+              value={patientName2}
+              onChange={(e) => setpatientName2(e.target.value)}
+              fullWidth
+              required
+            />
+            <TextField
+              placeholder='Treatment*'
+              variant='filled'
+              color='primary'
+              error={checkIncomplete2(treatment)}
+              helperText={
+                checkIncomplete2(treatment)
+                  ? "Treatment Name is Mandatory"
+                  : null
+              }
+              value={treatment}
+              onChange={(e) => settreatment(e.target.value)}
               fullWidth
             />
             <TextField
-              placeholder='Treatment'
+              placeholder='Diagnosis*'
               variant='filled'
               color='primary'
-              fullWidth
-            />
-            <TextField
-              placeholder='Diagnosis'
-              variant='filled'
-              color='primary'
+              error={checkIncomplete2(diagnosis)}
+              helperText={
+                checkIncomplete2(diagnosis)
+                  ? "Diagnosis Name is Mandatory"
+                  : null
+              }
+              value={diagnosis}
+              onChange={(e) => setdiagnosis(e.target.value)}
               fullWidth
             />
           </div>

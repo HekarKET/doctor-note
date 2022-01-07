@@ -169,3 +169,7 @@ export const addPatientAction = (data) => {
       });
   };
 };
+
+export const addTreatmentAction = (data) => {
+  
+};
