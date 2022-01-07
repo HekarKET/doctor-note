@@ -83,7 +83,7 @@ const profile = () => {
   return (
     <>
       <div className='container'>
-        <div className='dashboard-container'>
+        <div className='dashboard-container profile-container'>
           <div className='content'>
             <TextField
               variant='filled'

@@ -11,7 +11,7 @@ const addPatient = () => {
         <div className="dashboard-container">
         
           <div className="content">
-            <button>Add Patient</button>
+            <button className="add-btn">Add Patient</button>
             <TextField
               placeholder='Patient Name *'
               variant='filled'
@@ -31,7 +31,7 @@ const addPatient = () => {
               color='primary'
               fullWidth
             />
-            <button>Add Treatment</button>
+            <button className="add-btn">Add Treatment</button>
             <TextField
               placeholder='Patient ID'
               variant='filled'

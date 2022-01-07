@@ -1,8 +1,13 @@
-import { deletePatientTreatmentApi, fetchPatientsApi } from "../../util/api";
+import {
+  deletePatientTreatmentApi,
+  fetchPatientsApi,
+  fetchPatientsNameApi,
+} from "../../util/api";
 import { catchError } from "../../util/util";
 import {
   DELETE_PATIENT_TREATMENT,
   FETCH_PATIENTS,
+  FETCH_PATIENT_NAMES,
 } from "../constants/constant";
 
 export const fetchPatientAction = (data, count) => {
@@ -11,7 +16,8 @@ export const fetchPatientAction = (data, count) => {
       type: FETCH_PATIENTS,
       error: false,
       loading: true,
-      sucesss: true,
+      sucesss: false,
+      action: "FETCH_PATIENTS",
     });
 
     fetchPatientsApi(data, count)
@@ -22,6 +28,7 @@ export const fetchPatientAction = (data, count) => {
           error: false,
           loading: false,
           sucesss: true,
+          action: "FETCH_PATIENTS",
           patients: data.patients,
           currentPatient:
             data.patients && data.patients.length !== 0 ? data.patients[0] : {},
@@ -32,9 +39,10 @@ export const fetchPatientAction = (data, count) => {
         catchError(err);
         dispatch({
           type: FETCH_PATIENTS,
-          error: false,
+          error: true,
           loading: false,
-          sucesss: true,
+          sucesss: false,
+          action: "FETCH_PATIENTS",
           patients: [],
           currentPatient: {},
           total: -1,
@@ -50,6 +58,7 @@ export const deletPatientDetailsAction = (data) => {
       error: false,
       loading: true,
       sucesss: false,
+      action: "DELETE_PATIENT_TREATMENT",
     });
 
     deletePatientTreatmentApi(data)
@@ -64,6 +73,7 @@ export const deletPatientDetailsAction = (data) => {
           error: false,
           loading: false,
           sucesss: true,
+          action: "DELETE_PATIENT_TREATMENT",
           patients: patient,
           currentPatient:
             patient.patients && patient.patients.length !== 0
@@ -77,8 +87,44 @@ export const deletPatientDetailsAction = (data) => {
           type: DELETE_PATIENT_TREATMENT,
           error: true,
           loading: false,
+          action: "DELETE_PATIENT_TREATMENT",
           sucesss: false,
           message: err.response.message,
+        });
+      });
+  };
+};
+
+export const fetchPatientNamesAction = (id) => {
+  return function (dispatch) {
+    dispatch({
+      type: FETCH_PATIENT_NAMES,
+      error: false,
+      loading: true,
+      sucesss: false,
+      action: "FETCH_PATIENT_NAMES",
+    });
+    fetchPatientsNameApi(id)
+      .then((res) => res.data)
+      .then((data) => {
+        dispatch({
+          type: FETCH_PATIENT_NAMES,
+          error: false,
+          loading: false,
+          sucesss: true,
+          patientNames: data,
+          action: "FETCH_PATIENT_NAMES",
+        });
+      })
+      .catch((err) => {
+        catchError(err);
+        dispatch({
+          type: FETCH_PATIENT_NAMES,
+          error: true,
+          loading: false,
+          sucesss: false,
+          action: "FETCH_PATIENT_NAMES",
+          
         });
       });
   };

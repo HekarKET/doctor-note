@@ -80,6 +80,35 @@ export const getPatientByDoctor = async (req, res, next) => {
   }
 };
 
+export const getPatientNameByDoctor = async (req, res, next) => {
+  try {
+    const { _id, ...rest } = req.body;
+    let page = req.headers.page;
+    page = Math.max(page || 0, 0);
+    if (!_id) {
+      res.status(422).send({ message: "id is mandatory" });
+    } else if (!mongoose.Types.ObjectId.isValid(_id)) {
+      res.status(422).send({ message: "Invalid Id" });
+    }
+
+    const patients = await patientModel.aggregate([
+      { $unwind: "$history" },
+      {
+        $match: {
+          "history.treatmentDetails.doctor": mongoose.Types.ObjectId(_id),
+        },
+      },
+      {
+        $group: { _id: "$_id", patientName: { $first: "$patientName" } },
+      },
+    ]);
+    res.status(200).send(patients);
+    
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const addPatient = async (req, res, next) => {
   try {
     const body = req.body;
