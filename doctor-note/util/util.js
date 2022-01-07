@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 export const isEmpty = (obj) => {
   for (var prop in obj) {
@@ -11,10 +11,12 @@ export const isEmpty = (obj) => {
 };
 
 export const catchError = (err) => {
-  if(err.response.status === 401){
-    // if(typeof window !== "undefined"){
-    //   localStorage.removeItem('user')
-    // }
+  if (err.response) {
+    if (err.response.status === 401) {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("user");
+      }
+    }
   }
 };
 

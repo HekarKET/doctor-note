@@ -1,4 +1,5 @@
 import { TextField } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 import { Table, Modal, DatePicker } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -7,16 +8,19 @@ import { useSelector } from "react-redux";
 import {
   deletPatientDetailsAction,
   fetchPatientAction,
+  fetchPatientNamesAction,
 } from "../redux/actions/patientAction";
 import withAuth from "../util/auth";
+import { isEmpty } from "../util/util";
 
 const treatmentHistory = () => {
   const patientReducer = useSelector((state) => state.patientReducer);
   const userReducer = useSelector((state) => state.userReducer);
   const [patients, setpatients] = useState([]);
+  const [patientNames, setpatientNames] = useState([]);
   const [total, settotal] = useState(0);
   const [count, setcount] = useState(0);
-  const [patientNameFilter, setpatientNameFilter] = useState("");
+  const [patientNameFilter, setpatientNameFilter] = useState({});
   const [diagnosisFilter, setdiagnosisFilter] = useState("");
   const [dateFilter, setdateFilter] = useState();
   const [showModal, setshowModal] = useState(false);
@@ -102,11 +106,20 @@ const treatmentHistory = () => {
     );
   };
 
+  const handlePatientName = (patientNameFilter) => {
+    if (patientNameFilter && !isEmpty(patientNameFilter)) {
+      if (patientNameFilter.patientName) {
+        return patientNameFilter.patientName;
+      }
+    }
+    return null;
+  };
+
   const handleSearch = () => {
     let data = {
       _id: userReducer.user._id,
       diagnosis: diagnosisFilter !== "" ? diagnosisFilter : null,
-      patientName: patientNameFilter !== "" ? patientNameFilter : null,
+      patientName: handlePatientName(patientNameFilter),
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
@@ -116,8 +129,19 @@ const treatmentHistory = () => {
   useEffect(() => {
     let data = {
       _id: userReducer.user._id,
+    };
+    dispatch(fetchPatientNamesAction(data));
+  }, []);
+
+  useEffect(() => {
+    setpatientNames(patientReducer.patientNames);
+  }, [patientReducer.patientNames]);
+
+  useEffect(() => {
+    let data = {
+      _id: userReducer.user._id,
       diagnosis: diagnosisFilter !== "" ? diagnosisFilter : null,
-      patientName: patientNameFilter !== "" ? patientNameFilter : null,
+      patientName: handlePatientName(patientNameFilter),
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
@@ -135,14 +159,21 @@ const treatmentHistory = () => {
         <div className='dashboard-container'>
           <div className='content treatment-option'>
             <div className='filters'>
-              <TextField
-                variant='filled'
-                color='primary'
-                placeholder='Patient Name'
+              <Autocomplete
                 value={patientNameFilter}
-                onChange={(e) => setpatientNameFilter(e.target.value)}
-                fullWidth
-              />
+                options={patientNames}
+                // placeholder='Patient Names'
+                variant='filled'
+                onChange={(e, v) => setpatientNameFilter(v)}
+                getOptionLabel={(option) => option.patientName}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label='Patient Name'
+                    variant='filled'
+                  />
+                )}
+              />{" "}
               <TextField
                 variant='filled'
                 color='primary'
@@ -151,13 +182,11 @@ const treatmentHistory = () => {
                 onChange={(e) => setdiagnosisFilter(e.target.value)}
                 fullWidth
               />
-
               <DatePicker.RangePicker
                 format={"DD/MMMM/YYYY"}
                 onChange={(datesMoment, value) => setdateFilter(datesMoment)}
                 size={"large"}
               />
-
               <button onClick={handleSearch} className='search-btn'>
                 Search
               </button>
