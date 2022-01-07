@@ -1,10 +1,12 @@
 import {
+  addPatientApi,
   deletePatientTreatmentApi,
   fetchPatientsApi,
   fetchPatientsNameApi,
 } from "../../util/api";
 import { catchError } from "../../util/util";
 import {
+  ADD_PATIENT,
   DELETE_PATIENT_TREATMENT,
   FETCH_PATIENTS,
   FETCH_PATIENT_NAMES,
@@ -124,7 +126,45 @@ export const fetchPatientNamesAction = (id) => {
           loading: false,
           sucesss: false,
           action: "FETCH_PATIENT_NAMES",
-          
+        });
+      });
+  };
+};
+
+export const addPatientAction = (data) => {
+  return function (dispatch, getStore) {
+    dispatch({
+      type: ADD_PATIENT,
+      error: false,
+      loading: true,
+      sucesss: false,
+    });
+
+    addPatientApi(data)
+      .then((res) => res.data)
+      .then((data) => {
+        let patients = getStore().patientReducer.patientNames;
+
+         patients.push({
+          patientName: data.data.patientName,
+          _id: data.data._id,
+        });
+
+        dispatch({
+          type: ADD_PATIENT,
+          error: false,
+          loading: false,
+          sucesss: true,
+          patientNames: patients,
+        });
+      })
+      .catch((err) => {
+        catchError(err);
+        dispatch({
+          type: ADD_PATIENT,
+          error: true,
+          loading: false,
+          sucesss: false,
         });
       });
   };

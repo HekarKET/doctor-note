@@ -135,7 +135,7 @@ const treatmentHistory = () => {
 
   useEffect(() => {
     setpatientNames(patientReducer.patientNames);
-  }, [patientReducer.patientNames]);
+  }, [patientReducer.patientNames.length]);
 
   useEffect(() => {
     let data = {
