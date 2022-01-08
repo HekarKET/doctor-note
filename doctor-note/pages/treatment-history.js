@@ -20,6 +20,7 @@ const treatmentHistory = () => {
   const [patientNames, setpatientNames] = useState([]);
   const [total, settotal] = useState(0);
   const [count, setcount] = useState(0);
+  const [recordDetails, setrecordDetails] = useState({})
   const [patientNameFilter, setpatientNameFilter] = useState({});
   const [diagnosisFilter, setdiagnosisFilter] = useState("");
   const [dateFilter, setdateFilter] = useState();
@@ -27,15 +28,17 @@ const treatmentHistory = () => {
   const pageSize = 10;
   const dispatch = useDispatch();
 
-  const deleteTreatmentDetail = (id, diagnosis_id) => {
+  const deleteTreatmentDetail = (id, diagnosis_id, record) => {
     const data = {
       _id: id,
       diagnosis_id,
     };
     dispatch(deletPatientDetailsAction(data));
   };
-  const updateTreatmentDetail = (id, diagnosis_id) => {
-    console.log({ id, diagnosis_id });
+  const updateTreatmentDetail = (id, diagnosis_id, record) => {
+    console.log({ id, diagnosis_id, record });
+    setrecordDetails(record);
+    openModal()
   };
 
   const columns = [
@@ -56,15 +59,14 @@ const treatmentHistory = () => {
     {
       title: "Date",
       dataIndex: "history",
-      render: (text, record) =>
-        moment(text.treatmentDetails.updatedAt).format("DD MMMM YYYY"),
+      render: (text, record) => moment(text.createdAt).format(),
     },
     {
       title: "Delete",
       render: (text, record) => (
         <button
           className='delete-btn'
-          onClick={() => deleteTreatmentDetail(text._id, record.history._id)}
+          onClick={() => deleteTreatmentDetail(text._id, record.history._id, record)}
         >
           Delete
         </button>
@@ -75,7 +77,7 @@ const treatmentHistory = () => {
       render: (text, record) => (
         <button
           className='update-btn'
-          onClick={() => updateTreatmentDetail(text._id, record.history._id)}
+          onClick={() => updateTreatmentDetail(text._id, record.history._id, record)}
         >
           Update
         </button>
@@ -84,25 +86,34 @@ const treatmentHistory = () => {
   ];
 
   const closeModal = () => {
-    showModal(false);
+    setshowModal(false);
   };
 
   const openModal = () => {
-    showModal(false);
+    setshowModal(true);
   };
 
   const patientModal = () => {
     return (
       <Modal
         title={"Patient diagnosis"}
+
+
         visible={showModal}
+
+
         onOk={() => {
           // handleSubResourceInfoModal();
           // handleOnOkSubResource();
         }}
         onCancel={closeModal}
         width={1500}
-      ></Modal>
+      >
+
+      {  /*  Textfield treatment, diagnosis (default value record) */}
+
+
+      </Modal>
     );
   };
 
@@ -211,6 +222,8 @@ const treatmentHistory = () => {
           </div>
         </div>
       </div>
+
+      {patientModal()}
     </>
   );
 };

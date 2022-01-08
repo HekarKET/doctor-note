@@ -10,6 +10,7 @@ import {
   fetchPatientNamesAction,
 } from "../redux/actions/patientAction";
 import { useSelector } from "react-redux";
+import { openNotification } from "../util/notification";
 
 const addPatient = () => {
   const [patientName, setpatientName] = useState("");
@@ -81,18 +82,51 @@ const addPatient = () => {
     return variable === "" && incomplete2;
   };
 
+  useEffect(() => {
+    if (patientReducer.action === "ADD_TREATMENT") {
+      if (!patientReducer.loading) {
+        if (patientReducer.sucess) {
+          openNotification("success", "Treatment added");
+        } else {
+          openNotification("error", "Sorry! Something went wrong.");
+          // console.log(patientReducer);
+        }
+      }
+    }
+
+    if (patientReducer.action === "ADD_PATIENT") {
+      if (!patientReducer.loading) {
+        if (patientReducer.sucess) {
+          openNotification("success", "Patient added");
+        } else {
+          if (patientReducer.message) {
+            openNotification("error", patientReducer.message);
+          } else {
+            openNotification("error", "Sorry! Something went wrong.");
+          }
+          // console.log(patientReducer);
+        }
+      }
+    }
+  }, [
+    patientReducer.action,
+    patientReducer.success,
+    patientReducer.error,
+    patientReducer.loading,
+  ]);
+
   return (
     <>
-      <div className="container">
-        <div className="dashboard-container">
-          <div className="content">
-            <button onClick={handleAddPatient} className="add-btn">
+      <div className='container'>
+        <div className='dashboard-container'>
+          <div className='content'>
+            <button onClick={handleAddPatient} className='add-btn'>
               Add Patient
             </button>
 
             <TextField
-              placeholder="Patient Name *"
-              variant="filled"
+              placeholder='Patient Name *'
+              variant='filled'
               error={checkIncomplete(patientName)}
               helperText={
                 checkIncomplete(patientName)
@@ -100,30 +134,30 @@ const addPatient = () => {
                   : null
               }
               required
-              color="primary"
+              color='primary'
               fullWidth
               value={patientName}
               onChange={(e) => setpatientName(e.target.value)}
             />
 
             <TextField
-              placeholder="Address"
-              variant="filled"
-              color="primary"
+              placeholder='Address'
+              variant='filled'
+              color='primary'
               value={address}
               onChange={(e) => setaddress(e.target.value)}
               fullWidth
             />
             <TextField
-              placeholder="Age Range"
-              variant="filled"
-              color="primary"
+              placeholder='Age Range'
+              variant='filled'
+              color='primary'
               value={ageRange}
               onChange={(e) => setageRange(e.target.value)}
               fullWidth
             />
 
-            <button className="add-btn" onClick={handleAddTreatment}>
+            <button className='add-btn' onClick={handleAddTreatment}>
               Add Treatment
             </button>
 
@@ -131,7 +165,7 @@ const addPatient = () => {
               value={patientName2}
               options={patientNames}
               // placeholder='Patient Names'
-              variant="filled"
+              variant='filled'
               onChange={(e, v) => setpatientName2(v)}
               getOptionLabel={(option) => option.patientName}
               fullWidth
@@ -139,22 +173,24 @@ const addPatient = () => {
                 <TextField
                   {...params}
                   fullWidth
-                  error={checkIncomplete2(patientName2.patientName)}
+                  error={
+                    patientName2 && checkIncomplete2(patientName2.patientName)
+                  }
                   helperText={
-                    checkIncomplete2(patientName2.patientName)
+                    patientName2 && checkIncomplete2(patientName2.patientName)
                       ? "patient name is Mandatory"
                       : null
                   }
-                  label="Patient Name"
-                  variant="filled"
+                  label='Patient Name'
+                  variant='filled'
                 />
               )}
             />
 
             <TextField
-              placeholder="Treatment*"
-              variant="filled"
-              color="primary"
+              placeholder='Treatment*'
+              variant='filled'
+              color='primary'
               error={checkIncomplete2(treatment)}
               helperText={
                 checkIncomplete2(treatment)
@@ -166,9 +202,9 @@ const addPatient = () => {
               fullWidth
             />
             <TextField
-              placeholder="Diagnosis*"
-              variant="filled"
-              color="primary"
+              placeholder='Diagnosis*'
+              variant='filled'
+              color='primary'
               error={checkIncomplete2(diagnosis)}
               helperText={
                 checkIncomplete2(diagnosis)

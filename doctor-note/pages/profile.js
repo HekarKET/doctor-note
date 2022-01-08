@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserAction } from "../redux/actions/userActions";
 import withAuth from "../util/auth";
-import {notification} from "../util/notification";
+import {notification, openNotification} from "../util/notification";
 import { stateDistrictData } from "../util/rawData";
 import SelectCustom from "../util/Select";
 
@@ -69,7 +69,7 @@ const profile = () => {
 
   useEffect(() => {
     if (userReducer.success) {
-      notification('sc',"Profile updated");
+      openNotification('success',"Profile updated");
     }
   }, [userReducer.success]);
 

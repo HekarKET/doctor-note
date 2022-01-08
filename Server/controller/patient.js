@@ -52,9 +52,8 @@ export const getPatientByDoctor = async (req, res, next) => {
       {
         $match: query,
       },
-
       {
-        $sort: { history: -1 },
+        $sort: { "history.createdAt": 1 },
       },
       {
         $skip: skip,
@@ -103,7 +102,6 @@ export const getPatientNameByDoctor = async (req, res, next) => {
       },
     ]);
     res.status(200).send(patients);
-    
   } catch (error) {
     next(error);
   }

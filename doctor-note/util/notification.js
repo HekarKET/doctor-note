@@ -1,24 +1,32 @@
-import Notification from "rc-notification";
-import "rc-notification/assets/index.css";
-// import "../../assets/index.less";
+import { notification } from "antd";
 
-export const notification = (type, message) => {
-
-  const color = type === "sc" ? "green" : "red";
-
-  Notification.newInstance({}, (notification) => {
-    notification.notice({
-      content: <span>{message}</span>,
-      duration: 3,
-      style: {
-        background: color,
-        color: 'white',
-        right: "42vw",
-        top: "80vh",
-      },
-      onClose() {
-        console.log("simple close");
-      },
+export const openNotification = (type, message, description) => {
+  if (type === "success") {
+    notification.success({
+      message: message,
+      description: description,
+      placement: "bottomLeft",
     });
-  });
+  }
+  if (type === "error") {
+    notification.error({
+      message: message,
+      description: description,
+      placement: "bottomLeft",
+    });
+  }
+  if (type === "Network") {
+    notification.error({
+      message: "Network Issues",
+      description: "Please check your internet connection.",
+      placement: "bottomLeft",
+    });
+  }
+  if (type === "auth-error") {
+    notification.error({
+      message: "Authorization Error",
+      description: "",
+      placement: "bottomLeft",
+    });
+  }
 };

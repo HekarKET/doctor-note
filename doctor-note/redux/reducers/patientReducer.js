@@ -2,13 +2,14 @@ import {
   DELETE_PATIENT_TREATMENT,
   FETCH_PATIENTS,
   FETCH_PATIENT_NAMES,
-  ADD_PATIENT
+  ADD_PATIENT,
+  ADD_TREATMENT,
 } from "../constants/constant";
 
 const initialState = {
   error: false,
   loading: false,
-  sucesss: false,
+  sucess: false,
   action: "",
   patients: [],
   currentPatient: {},
@@ -23,7 +24,7 @@ export function patientReducer(state = initialState, action) {
         ...state,
         error: action.error || state.error,
         loading: action.loading || state.loading,
-        sucesss: action.sucesss || state.sucesss,
+        sucess: action.sucess || state.sucess,
         action: action.action || state.action,
         patients: action.patients || state.patients,
         currentPatient: action.currentPatient || state.currentPatient,
@@ -35,7 +36,7 @@ export function patientReducer(state = initialState, action) {
         ...state,
         error: action.error || state.error,
         loading: action.loading || state.loading,
-        sucesss: action.sucesss || state.sucesss,
+        sucess: action.sucess || state.sucess,
         action: action.action || state.action,
         patients: action.patients || state.patients,
         currentPatient: action.currentPatient || state.currentPatient,
@@ -47,24 +48,35 @@ export function patientReducer(state = initialState, action) {
         ...state,
         error: action.error || state.error,
         loading: action.loading || state.loading,
-        sucesss: action.sucesss || state.sucesss,
+        sucess: action.sucess || state.sucess,
         action: action.action || state.action,
         patientNames: action.patientNames || state.patientNames,
+        action: action.action || state.action,
       };
-
 
     case ADD_PATIENT:
       return {
         ...state,
         error: action.error,
         loading: action.loading,
-        sucesss: action.sucesss,
-        patientNames: action.patientNames || state.patientNames,
-      }
+        sucess: action.sucess,
+        // patientNames: action.patientNames || state.patientNames,
+        action: action.action || state.action,
+        message: action.message || state.message
+      };
 
-// Create case for ADD_TREATMENT 
-// Accept all the action properties
+    // Create case for ADD_TREATMENT
+    // Accept all the action properties
 
+    case ADD_TREATMENT:
+      return {
+        ...state,
+        error: action.error,
+        loading: action.loading,
+        sucess: action.sucess,
+        // patientNames: action.patientNames || state.patientNames,
+        action: action.action || state.action,
+      };
 
     default:
       return state;

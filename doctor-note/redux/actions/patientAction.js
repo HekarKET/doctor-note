@@ -20,7 +20,7 @@ export const fetchPatientAction = (data, count) => {
       type: FETCH_PATIENTS,
       error: false,
       loading: true,
-      sucesss: false,
+      sucess: false,
       action: "FETCH_PATIENTS",
     });
 
@@ -31,7 +31,7 @@ export const fetchPatientAction = (data, count) => {
           type: FETCH_PATIENTS,
           error: false,
           loading: false,
-          sucesss: true,
+          sucess: true,
           action: "FETCH_PATIENTS",
           patients: data.patients,
           currentPatient:
@@ -45,7 +45,7 @@ export const fetchPatientAction = (data, count) => {
           type: FETCH_PATIENTS,
           error: true,
           loading: false,
-          sucesss: false,
+          sucess: false,
           action: "FETCH_PATIENTS",
           patients: [],
           currentPatient: {},
@@ -61,7 +61,7 @@ export const deletPatientDetailsAction = (data) => {
       type: DELETE_PATIENT_TREATMENT,
       error: false,
       loading: true,
-      sucesss: false,
+      sucess: false,
       action: "DELETE_PATIENT_TREATMENT",
     });
 
@@ -76,7 +76,7 @@ export const deletPatientDetailsAction = (data) => {
           type: DELETE_PATIENT_TREATMENT,
           error: false,
           loading: false,
-          sucesss: true,
+          sucess: true,
           action: "DELETE_PATIENT_TREATMENT",
           patients: patient,
           currentPatient:
@@ -92,7 +92,7 @@ export const deletPatientDetailsAction = (data) => {
           error: true,
           loading: false,
           action: "DELETE_PATIENT_TREATMENT",
-          sucesss: false,
+          sucess: false,
           message: err.response.message,
         });
       });
@@ -105,7 +105,7 @@ export const fetchPatientNamesAction = (id) => {
       type: FETCH_PATIENT_NAMES,
       error: false,
       loading: true,
-      sucesss: false,
+      sucess: false,
       action: "FETCH_PATIENT_NAMES",
     });
     fetchPatientsNameApi(id)
@@ -115,7 +115,7 @@ export const fetchPatientNamesAction = (id) => {
           type: FETCH_PATIENT_NAMES,
           error: false,
           loading: false,
-          sucesss: true,
+          sucess: true,
           patientNames: data,
           action: "FETCH_PATIENT_NAMES",
         });
@@ -126,7 +126,7 @@ export const fetchPatientNamesAction = (id) => {
           type: FETCH_PATIENT_NAMES,
           error: true,
           loading: false,
-          sucesss: false,
+          sucess: false,
           action: "FETCH_PATIENT_NAMES",
         });
       });
@@ -139,7 +139,8 @@ export const addPatientAction = (data) => {
       type: ADD_PATIENT,
       error: false,
       loading: true,
-      sucesss: false,
+      sucess: false,
+      action: "ADD_PATIENT",
     });
 
     addPatientApi(data)
@@ -147,7 +148,7 @@ export const addPatientAction = (data) => {
       .then((data) => {
         let patients = getStore().patientReducer.patientNames;
 
-         patients.push({
+        patients.push({
           patientName: data.data.patientName,
           _id: data.data._id,
         });
@@ -156,8 +157,9 @@ export const addPatientAction = (data) => {
           type: ADD_PATIENT,
           error: false,
           loading: false,
-          sucesss: true,
+          sucess: true,
           patientNames: patients,
+          action: "ADD_PATIENT",
         });
       })
       .catch((err) => {
@@ -166,52 +168,52 @@ export const addPatientAction = (data) => {
           type: ADD_PATIENT,
           error: true,
           loading: false,
-          sucesss: false,
+          sucess: false,
+          action: "ADD_PATIENT",
+          message: err.response.data.message
         });
       });
   };
 };
 
 export const addTreatmentAction = (data) => {
-  return function(dispatch){
-
+  return function (dispatch) {
     //add dispatch to set loading true
     dispatch({
       type: ADD_TREATMENT,
-      sucesss: false,
+      sucess: false,
       error: false,
-      loading: true
+      loading: true,
+      action: "ADD_TREATMENT",
     });
 
     //call api with data
     addTreatmentApi(data)
-    .then((res) => res.data)
-    .then((data) => {
+      .then((res) => res.data)
+      .then((data) => {
+        //if success then dispatch success true
 
+        dispatch({
+          type: ADD_TREATMENT,
+          error: false,
+          loading: false,
+          sucess: true,
+          action: "ADD_TREATMENT",
+        });
+      })
+      //else dispatch error true
 
-    //if success then dispatch success true
-       
-      dispatch({
-        type: ADD_TREATMENT,
-        error: false,
-        loading: false,
-        sucesss: true,
+      .catch((err) => {
+        catchError(err);
+        dispatch({
+          type: ADD_TREATMENT,
+          error: true,
+          loading: false,
+          sucess: false,
+          action: "ADD_TREATMENT",
+        });
       });
-    })
-    //else dispatch error true
-
-    .catch((err) => {
-     catchError(err);
-     dispatch({
-       type: ADD_TREATMENT,
-       error: true,
-       loading: false,
-       sucesss: false,
-     });
-    })
-
 
     //dont forget to add type : ADD_TREATMENT in every case
-
-  }
+  };
 };
