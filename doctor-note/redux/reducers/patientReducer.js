@@ -62,6 +62,9 @@ export function patientReducer(state = initialState, action) {
         patientNames: action.patientNames || state.patientNames,
       }
 
+// Create case for ADD_TREATMENT 
+// Accept all the action properties
+
 
     default:
       return state;

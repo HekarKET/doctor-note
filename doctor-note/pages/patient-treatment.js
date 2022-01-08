@@ -55,18 +55,17 @@ const addPatient = () => {
   }, [patientReducer.patientNames.length]);
 
   const handleAddTreatment = () => {
-    
     if (patientName2 === "" && treatment === "" && diagnosis === "") {
       setincomplete2(true);
     } else {
       const data = {
         patientName2,
         treatment,
-        diagnosis
+        diagnosis,
       };
       dispatch(addTreatmentAction(data));
     }
-  }
+  };
 
   const checkIncomplete2 = (variable) => {
     return variable === "" && incomplete2;
@@ -114,22 +113,28 @@ const addPatient = () => {
               fullWidth
             />
 
-            <button className='add-btn' onClick={handleAddTreatment}>Add Treatment</button>
-            <TextField
-              placeholder='Patient Name*'
-              variant='filled'
-              color='primary'
-              error={checkIncomplete2(patientName2)}
-              helperText={
-                checkIncomplete2(patientName2)
-                  ? "Patient Name is Mandatory"
-                  : null
-              }
+            <button className='add-btn' onClick={handleAddTreatment}>
+              Add Treatment
+            </button>
+
+            <Autocomplete
               value={patientName2}
-              onChange={(e) => setpatientName2(e.target.value)}
+              options={patientNames}
+              // placeholder='Patient Names'
+              variant='filled'
+              onChange={(e, v) => setpatientName2(v)}
+              getOptionLabel={(option) => option.patientName}
               fullWidth
-              required
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  label='Patient Name'
+                  variant='filled'
+                />
+              )}
             />
+
             <TextField
               placeholder='Treatment*'
               variant='filled'

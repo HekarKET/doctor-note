@@ -171,5 +171,17 @@ export const addPatientAction = (data) => {
 };
 
 export const addTreatmentAction = (data) => {
-  
+  return function(dispatch){
+
+    //add dispatch to set loading true
+
+    //call api with data
+
+    //if success then dispatch success true
+
+    //else dispatch error true
+
+    //dont forget to add type : ADD_TREATMENT in every case
+
+  }
 };
