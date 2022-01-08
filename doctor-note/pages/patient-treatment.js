@@ -60,12 +60,18 @@ const addPatient = () => {
       treatment === "" &&
       diagnosis === ""
     ) {
+      // console.log("hello")
       setincomplete2(true);
     } else {
+      // console.log("hello4")
+
       const data = {
-        patientName2,
-        treatment,
-        diagnosis,
+        _id: patientName2._id,
+        diagnosis: diagnosis,
+        treatmentDetails: {
+          doctor: userReducer.user._id,
+          treatment: treatment,
+        },
       };
       dispatch(addTreatmentAction(data));
     }
@@ -77,16 +83,16 @@ const addPatient = () => {
 
   return (
     <>
-      <div className='container'>
-        <div className='dashboard-container'>
-          <div className='content'>
-            <button onClick={handleAddPatient} className='add-btn'>
+      <div className="container">
+        <div className="dashboard-container">
+          <div className="content">
+            <button onClick={handleAddPatient} className="add-btn">
               Add Patient
             </button>
 
             <TextField
-              placeholder='Patient Name *'
-              variant='filled'
+              placeholder="Patient Name *"
+              variant="filled"
               error={checkIncomplete(patientName)}
               helperText={
                 checkIncomplete(patientName)
@@ -94,30 +100,30 @@ const addPatient = () => {
                   : null
               }
               required
-              color='primary'
+              color="primary"
               fullWidth
               value={patientName}
               onChange={(e) => setpatientName(e.target.value)}
             />
 
             <TextField
-              placeholder='Address'
-              variant='filled'
-              color='primary'
+              placeholder="Address"
+              variant="filled"
+              color="primary"
               value={address}
               onChange={(e) => setaddress(e.target.value)}
               fullWidth
             />
             <TextField
-              placeholder='Age Range'
-              variant='filled'
-              color='primary'
+              placeholder="Age Range"
+              variant="filled"
+              color="primary"
               value={ageRange}
               onChange={(e) => setageRange(e.target.value)}
               fullWidth
             />
 
-            <button className='add-btn' onClick={handleAddTreatment}>
+            <button className="add-btn" onClick={handleAddTreatment}>
               Add Treatment
             </button>
 
@@ -125,7 +131,7 @@ const addPatient = () => {
               value={patientName2}
               options={patientNames}
               // placeholder='Patient Names'
-              variant='filled'
+              variant="filled"
               onChange={(e, v) => setpatientName2(v)}
               getOptionLabel={(option) => option.patientName}
               fullWidth
@@ -139,16 +145,16 @@ const addPatient = () => {
                       ? "patient name is Mandatory"
                       : null
                   }
-                  label='Patient Name'
-                  variant='filled'
+                  label="Patient Name"
+                  variant="filled"
                 />
               )}
             />
 
             <TextField
-              placeholder='Treatment*'
-              variant='filled'
-              color='primary'
+              placeholder="Treatment*"
+              variant="filled"
+              color="primary"
               error={checkIncomplete2(treatment)}
               helperText={
                 checkIncomplete2(treatment)
@@ -160,9 +166,9 @@ const addPatient = () => {
               fullWidth
             />
             <TextField
-              placeholder='Diagnosis*'
-              variant='filled'
-              color='primary'
+              placeholder="Diagnosis*"
+              variant="filled"
+              color="primary"
               error={checkIncomplete2(diagnosis)}
               helperText={
                 checkIncomplete2(diagnosis)

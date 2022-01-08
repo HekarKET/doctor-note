@@ -1,5 +1,6 @@
 import {
   addPatientApi,
+  addTreatmentApi,
   deletePatientTreatmentApi,
   fetchPatientsApi,
   fetchPatientsNameApi,
@@ -7,6 +8,7 @@ import {
 import { catchError } from "../../util/util";
 import {
   ADD_PATIENT,
+  ADD_TREATMENT,
   DELETE_PATIENT_TREATMENT,
   FETCH_PATIENTS,
   FETCH_PATIENT_NAMES,
@@ -174,12 +176,40 @@ export const addTreatmentAction = (data) => {
   return function(dispatch){
 
     //add dispatch to set loading true
+    dispatch({
+      type: ADD_TREATMENT,
+      sucesss: false,
+      error: false,
+      loading: true
+    });
 
     //call api with data
+    addTreatmentApi(data)
+    .then((res) => res.data)
+    .then((data) => {
+
 
     //if success then dispatch success true
-
+       
+      dispatch({
+        type: ADD_TREATMENT,
+        error: false,
+        loading: false,
+        sucesss: true,
+      });
+    })
     //else dispatch error true
+
+    .catch((err) => {
+     catchError(err);
+     dispatch({
+       type: ADD_TREATMENT,
+       error: true,
+       loading: false,
+       sucesss: false,
+     });
+    })
+
 
     //dont forget to add type : ADD_TREATMENT in every case
 
