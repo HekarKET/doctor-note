@@ -17,7 +17,7 @@ const addPatient = () => {
   const [ageRange, setageRange] = useState("");
   const [address, setaddress] = useState("");
 
-  const [patientName2, setpatientName2] = useState("");
+  const [patientName2, setpatientName2] = useState({ patientName: "" });
   const [treatment, settreatment] = useState("");
   const [diagnosis, setdiagnosis] = useState("");
 
@@ -55,7 +55,11 @@ const addPatient = () => {
   }, [patientReducer.patientNames.length]);
 
   const handleAddTreatment = () => {
-    if (patientName2 === "" && treatment === "" && diagnosis === "") {
+    if (
+      patientName2.patientName === "" &&
+      treatment === "" &&
+      diagnosis === ""
+    ) {
       setincomplete2(true);
     } else {
       const data = {
@@ -129,6 +133,12 @@ const addPatient = () => {
                 <TextField
                   {...params}
                   fullWidth
+                  error={checkIncomplete2(patientName2.patientName)}
+                  helperText={
+                    checkIncomplete2(patientName2.patientName)
+                      ? "patient name is Mandatory"
+                      : null
+                  }
                   label='Patient Name'
                   variant='filled'
                 />
