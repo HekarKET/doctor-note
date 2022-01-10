@@ -63,9 +63,11 @@ const treatmentHistory = () => {
   };
 
   const columns = [
+
     {
       title: "Name",
       dataIndex: "patientName",
+      render: (text, record) =>  `${text} #${record._id}`
     },
     {
       title: "Treatment",
@@ -79,11 +81,11 @@ const treatmentHistory = () => {
     },
     {
       title: "Age-Range",
-      dataIndex: "ageRange"
+      dataIndex: "ageRange",
     },
     {
       title: "Address",
-      dataIndex: "address"
+      dataIndex: "address",
     },
     {
       title: "Date",
@@ -168,10 +170,8 @@ const treatmentHistory = () => {
 
     const handleUpdate = () => {
       if (updateUser) {
-
         //disaptch action to update patient
-        dispatch(updatePatientAction(recordDetails)) ;
-
+        dispatch(updatePatientAction(recordDetails));
       } else {
         dispatch(updateTreatmentAction(recordDetails));
       }
