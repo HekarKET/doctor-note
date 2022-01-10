@@ -62,8 +62,8 @@ const addPatient = () => {
 
   const handleAddTreatment = () => {
     if (
-      patientName2.patientName === "" &&
-      treatment === "" &&
+      patientName2.patientName === "" ||
+      treatment === "" ||
       diagnosis === ""
     ) {
       // console.log("hello")
