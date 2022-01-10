@@ -33,7 +33,7 @@ export default function Navbar() {
         <div className='profile'>
           <div className='profile-logo'>{user.name && user.name[0]}</div>
           <div className='details'>
-            <div className='username'>{user.userName} ,</div>
+            <div className='username'>{user.name} ,</div>
             <div className='state'>{user.state}</div>
             {/* <div className='email'>{user.email}</div> */}
           </div>

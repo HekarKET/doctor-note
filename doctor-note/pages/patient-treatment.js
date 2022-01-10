@@ -37,6 +37,12 @@ const addPatient = () => {
       const data = {
         patientName,
       };
+      if(ageRange!==""){
+        data.ageRange = ageRange;
+      }
+      if(address!==""){
+        data.address = address;
+      }
       dispatch(addPatientAction(data));
     }
   };

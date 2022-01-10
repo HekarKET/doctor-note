@@ -76,6 +76,14 @@ const treatmentHistory = () => {
       render: (text, record) => text.diagnosis,
     },
     {
+      title: "Age-Range",
+      dataIndex: "ageRange"
+    },
+    {
+      title: "Address",
+      dataIndex: "address"
+    },
+    {
       title: "Date",
       dataIndex: "history",
       render: (text, record) => moment(text.createdAt).format("DD MMMM YYYY"),
