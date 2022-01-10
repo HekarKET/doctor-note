@@ -1,6 +1,6 @@
 import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import { Table, Modal, DatePicker } from "antd";
+import { Table, Modal, DatePicker, Row, Col } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ import {
   updateTreatmentAction,
 } from "../redux/actions/patientAction";
 import withAuth from "../util/auth";
-import { openNotification } from '../util/notification';
+import { openNotification } from "../util/notification";
 import { isEmpty } from "../util/util";
 
 const treatmentHistory = () => {
@@ -144,25 +144,33 @@ const treatmentHistory = () => {
         onCancel={closeModal}
         width={1500}
       >
-        {/*  Textfield treatment, diagnosis (default value record) */}
+        <Row gutter={[10,10]}>
+          <Col span={24}>
+            <TextField
+              variant='outlined'
+              color='primary'
+              placeholder='Diagnosis'
+              name='Diagnosis'
+              label='Diagnosis'
+              value={recordDetails.history.diagnosis}
+              onChange={(e) => handleRecordDiagnosisChange(e.target.value)}
+              fullWidth
+            />
+          </Col>
 
-        <TextField
-          variant='filled'
-          color='primary'
-          placeholder='Diagnosis'
-          value={recordDetails.history.diagnosis}
-          onChange={(e) => handleRecordDiagnosisChange(e.target.value)}
-          fullWidth
-        />
-
-        <TextField
-          variant='filled'
-          color='primary'
-          placeholder='Treatment'
-          value={recordDetails.history.treatmentDetails.treatment}
-          onChange={(e) => handleRecordTreatmentChange(e.target.value)}
-          fullWidth
-        />
+          <Col span={24}>
+            <TextField
+              variant='outlined'
+              color='primary'
+              placeholder='Treatment'
+              name='Treatment'
+              label='Treatment'
+              value={recordDetails.history.treatmentDetails.treatment}
+              onChange={(e) => handleRecordTreatmentChange(e.target.value)}
+              fullWidth
+            />
+          </Col>
+        </Row>
       </Modal>
     );
   };
@@ -184,7 +192,7 @@ const treatmentHistory = () => {
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
-    dispatch(fetchPatientAction(data, count-1));
+    dispatch(fetchPatientAction(data, count - 1));
   };
 
   useEffect(() => {
@@ -206,7 +214,7 @@ const treatmentHistory = () => {
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
-    dispatch(fetchPatientAction(data, count-1 ));
+    dispatch(fetchPatientAction(data, count - 1));
   }, [count]);
 
   useEffect(() => {
