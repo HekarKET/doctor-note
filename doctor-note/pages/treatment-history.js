@@ -78,7 +78,7 @@ const treatmentHistory = () => {
     {
       title: "Date",
       dataIndex: "history",
-      render: (text, record) => moment(text.createdAt).format(),
+      render: (text, record) => moment(text.createdAt).format("DD MMMM YYYY"),
     },
     {
       title: "Delete",
