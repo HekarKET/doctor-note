@@ -264,9 +264,15 @@ export const updatePatientTreatmentDetails = async (req, res, next) => {
       });
       let patientUpdated = patient;
       patientUpdated.history = patientHistory;
-      patientUpdated = await patientModel.findByIdAndUpdate(
-        _id,
-        { $push: { history: patientHistory } },
+      patientUpdated = await patientModel.updateOne(
+        {_id, "history._id": history._id},
+        {
+          $set: {
+            "history.$.diagnosis": history.diagnosis,
+            "history.$.treatmentDetails.treatment":
+              history.treatmentDetails.treatment,
+          },
+        },
         { new: true }
       );
       // console.log(patientUpdated);
