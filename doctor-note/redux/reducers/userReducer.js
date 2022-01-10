@@ -56,6 +56,7 @@ export function userReducer(state = intialState, action) {
           success: action.success,
           message: action.message
         };
+        3
     default:
       return state;
   }

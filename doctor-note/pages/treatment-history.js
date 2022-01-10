@@ -9,8 +9,10 @@ import {
   deletPatientDetailsAction,
   fetchPatientAction,
   fetchPatientNamesAction,
+  updateTreatmentAction,
 } from "../redux/actions/patientAction";
 import withAuth from "../util/auth";
+import { openNotification } from '../util/notification';
 import { isEmpty } from "../util/util";
 
 const treatmentHistory = () => {
@@ -20,7 +22,24 @@ const treatmentHistory = () => {
   const [patientNames, setpatientNames] = useState([]);
   const [total, settotal] = useState(0);
   const [count, setcount] = useState(0);
-  const [recordDetails, setrecordDetails] = useState({})
+  const [recordDetails, setrecordDetails] = useState({
+    _id: "61d021b832257bd886b7c445",
+    patientName: "akhilesh ketkars",
+    history: {
+      diagnosis: "fever cw",
+      treatmentDetails: {
+        doctor: "61d3f6f37b167d3838939468",
+        treatment: "tablet 232ww1",
+      },
+      _id: "61d5b637792ced989b6a0eb2",
+      updatedAt: "2022-01-08T08:50:19.193Z",
+      createdAt: "2022-01-08T08:50:19.193Z",
+    },
+    createdAt: "2022-01-01T09:41:12.414Z",
+    updatedAt: "2022-01-08T08:50:19.193Z",
+    __v: 0,
+    address: "panvel",
+  });
   const [patientNameFilter, setpatientNameFilter] = useState({});
   const [diagnosisFilter, setdiagnosisFilter] = useState("");
   const [dateFilter, setdateFilter] = useState();
@@ -36,9 +55,9 @@ const treatmentHistory = () => {
     dispatch(deletPatientDetailsAction(data));
   };
   const updateTreatmentDetail = (id, diagnosis_id, record) => {
-    console.log({ id, diagnosis_id, record });
+    // console.log({ id, diagnosis_id, record });
     setrecordDetails(record);
-    openModal()
+    openModal();
   };
 
   const columns = [
@@ -66,7 +85,9 @@ const treatmentHistory = () => {
       render: (text, record) => (
         <button
           className='delete-btn'
-          onClick={() => deleteTreatmentDetail(text._id, record.history._id, record)}
+          onClick={() =>
+            deleteTreatmentDetail(text._id, record.history._id, record)
+          }
         >
           Delete
         </button>
@@ -77,7 +98,9 @@ const treatmentHistory = () => {
       render: (text, record) => (
         <button
           className='update-btn'
-          onClick={() => updateTreatmentDetail(text._id, record.history._id, record)}
+          onClick={() =>
+            updateTreatmentDetail(text._id, record.history._id, record)
+          }
         >
           Update
         </button>
@@ -94,25 +117,52 @@ const treatmentHistory = () => {
   };
 
   const patientModal = () => {
+    const handleRecordDiagnosisChange = (value) => {
+      let newDetails = { ...recordDetails };
+      newDetails.history.diagnosis = value;
+      setrecordDetails({ ...newDetails });
+    };
+
+    const handleRecordTreatmentChange = (value) => {
+      let newDetails = { ...recordDetails };
+      newDetails.history.treatmentDetails.treatment = value;
+      setrecordDetails({ ...newDetails });
+    };
+
+    const handleUpdate = () => {
+      dispatch(updateTreatmentAction(recordDetails));
+    };
+
     return (
       <Modal
         title={"Patient diagnosis"}
-
-
         visible={showModal}
-
-
         onOk={() => {
-          // handleSubResourceInfoModal();
-          // handleOnOkSubResource();
+          handleUpdate();
+          closeModal();
         }}
         onCancel={closeModal}
         width={1500}
       >
+        {/*  Textfield treatment, diagnosis (default value record) */}
 
-      {  /*  Textfield treatment, diagnosis (default value record) */}
+        <TextField
+          variant='filled'
+          color='primary'
+          placeholder='Diagnosis'
+          value={recordDetails.history.diagnosis}
+          onChange={(e) => handleRecordDiagnosisChange(e.target.value)}
+          fullWidth
+        />
 
-
+        <TextField
+          variant='filled'
+          color='primary'
+          placeholder='Treatment'
+          value={recordDetails.history.treatmentDetails.treatment}
+          onChange={(e) => handleRecordTreatmentChange(e.target.value)}
+          fullWidth
+        />
       </Modal>
     );
   };
@@ -163,6 +213,24 @@ const treatmentHistory = () => {
     setpatients(patientReducer.patients);
     settotal(patientReducer.total);
   }, [patientReducer.patients.length]);
+
+  useEffect(() => {
+    if (patientReducer.action === "UPDATE_PATIENT_TREATMENT") {
+      if (!patientReducer.loading) {
+        if (patientReducer.sucess) {
+          openNotification("success", "Treatment updated");
+        } else {
+          openNotification("error", "Sorry! Something went wrong.");
+          // console.log(patientReducer);
+        }
+      }
+    }
+  }, [
+    patientReducer.action,
+    patientReducer.success,
+    patientReducer.error,
+    patientReducer.loading,
+  ]);
 
   return (
     <>

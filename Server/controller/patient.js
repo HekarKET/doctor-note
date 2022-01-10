@@ -222,14 +222,14 @@ export const addPatientTreatmentDetails = async (req, res, next) => {
 
 export const updatePatientTreatmentDetails = async (req, res, next) => {
   try {
-    const { _id, historyDetails } = req.body;
+    const { _id, history } = req.body;
     if (!_id) {
       res.status(422).send({ message: "id is mandatory" });
     } else if (!mongoose.Types.ObjectId.isValid(_id)) {
       res.status(422).send({ message: "Invalid Id" });
-    } else if (!historyDetails._id) {
+    } else if (!history._id) {
       res.status(422).send({ message: "diagnosis id is mandatory" });
-    } else if (!mongoose.Types.ObjectId.isValid(historyDetails._id)) {
+    } else if (!mongoose.Types.ObjectId.isValid(history._id)) {
       res.status(422).send({ message: "Invalid diagnosis id" });
     } else {
       const patient = await patientModel.findById(_id);
@@ -237,8 +237,8 @@ export const updatePatientTreatmentDetails = async (req, res, next) => {
         res.status(404).send({ message: "patient not found" });
       }
       let patientHistory = patient.history.map((item) => {
-        if (item._id == historyDetails._id) {
-          return historyDetails;
+        if (item._id == history._id) {
+          return history;
         } else {
           return item;
         }

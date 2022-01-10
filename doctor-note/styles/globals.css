@@ -140,8 +140,8 @@ nav ul .active {
   color: red;
   border: solid 1px red;
   margin: 15;
-  padding: 0px;
-  padding-inline: 10;
+  padding: 2px 5px;
+  border-radius: 10px;
 }
 
 .content .update-btn {
@@ -149,8 +149,8 @@ nav ul .active {
   color: black;
   border: solid 1px rgb(1, 47, 1);
   margin: 15;
-  padding: 0px;
-  padding-inline: 5;
+  padding: 2px 5px;
+  border-radius: 10px;
 }
 
 .ant-table {

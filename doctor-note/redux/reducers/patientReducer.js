@@ -4,6 +4,7 @@ import {
   FETCH_PATIENT_NAMES,
   ADD_PATIENT,
   ADD_TREATMENT,
+  UPDATE_PATIENT_TREATMENT,
 } from "../constants/constant";
 
 const initialState = {
@@ -62,7 +63,7 @@ export function patientReducer(state = initialState, action) {
         sucess: action.sucess,
         // patientNames: action.patientNames || state.patientNames,
         action: action.action || state.action,
-        message: action.message || state.message
+        message: action.message || state.message,
       };
 
     // Create case for ADD_TREATMENT
@@ -78,6 +79,15 @@ export function patientReducer(state = initialState, action) {
         action: action.action || state.action,
       };
 
+    case UPDATE_PATIENT_TREATMENT:
+      return {
+        ...state,
+        error: action.error,
+        loading: action.loading,
+        sucess: action.sucess,
+        // patientNames: action.patientNames || state.patientNames,
+        action: action.action || state.action,
+      };
     default:
       return state;
   }
