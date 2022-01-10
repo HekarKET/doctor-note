@@ -44,6 +44,7 @@ const treatmentHistory = () => {
   const [diagnosisFilter, setdiagnosisFilter] = useState("");
   const [dateFilter, setdateFilter] = useState();
   const [showModal, setshowModal] = useState(false);
+  const [updateUser, setupdateUser] = useState(false);
   const pageSize = 10;
   const dispatch = useDispatch();
 
@@ -84,6 +85,7 @@ const treatmentHistory = () => {
       title: "Delete",
       render: (text, record) => (
         <button
+          id='delete-btn'
           className='delete-btn'
           onClick={() =>
             deleteTreatmentDetail(text._id, record.history._id, record)
@@ -97,6 +99,7 @@ const treatmentHistory = () => {
       title: "Update",
       render: (text, record) => (
         <button
+          id='update-btn'
           className='update-btn'
           onClick={() =>
             updateTreatmentDetail(text._id, record.history._id, record)
@@ -109,6 +112,9 @@ const treatmentHistory = () => {
   ];
 
   const closeModal = () => {
+    if (updateUser) {
+      setupdateUser(false);
+    }
     setshowModal(false);
   };
 
@@ -117,6 +123,10 @@ const treatmentHistory = () => {
   };
 
   const patientModal = () => {
+    const checkIncomplete = (variable) => {
+      return variable === "";
+    };
+
     const handleRecordDiagnosisChange = (value) => {
       let newDetails = { ...recordDetails };
       newDetails.history.diagnosis = value;
@@ -129,8 +139,32 @@ const treatmentHistory = () => {
       setrecordDetails({ ...newDetails });
     };
 
+    const handleRecordPatientNameChange = (value) => {
+      let newDetails = { ...recordDetails };
+      newDetails.patientName = value;
+      setrecordDetails({ ...newDetails });
+    };
+
+    const handleRecordAgeRangeChange = (value) => {
+      let newDetails = { ...recordDetails };
+      newDetails.ageRange = value;
+      setrecordDetails({ ...newDetails });
+    };
+
+    const handleRecordAddressChange = (value) => {
+      let newDetails = { ...recordDetails };
+      newDetails.address = value;
+      setrecordDetails({ ...newDetails });
+    };
+
     const handleUpdate = () => {
-      dispatch(updateTreatmentAction(recordDetails));
+      if (updateUser) {
+
+        //disaptch action to update patient
+
+      } else {
+        dispatch(updateTreatmentAction(recordDetails));
+      }
     };
 
     return (
@@ -144,33 +178,79 @@ const treatmentHistory = () => {
         onCancel={closeModal}
         width={1500}
       >
-        <Row gutter={[10,10]}>
-          <Col span={24}>
-            <TextField
-              variant='outlined'
-              color='primary'
-              placeholder='Diagnosis'
-              name='Diagnosis'
-              label='Diagnosis'
-              value={recordDetails.history.diagnosis}
-              onChange={(e) => handleRecordDiagnosisChange(e.target.value)}
-              fullWidth
-            />
-          </Col>
+        {updateUser ? (
+          <Row gutter={[10, 10]}>
+            <Col span={24}>
+              <TextField
+                variant='outlined'
+                label='Patient Name *'
+                placeholder='Patient Name *'
+                error={checkIncomplete(recordDetails.patientName)}
+                helperText={
+                  checkIncomplete(recordDetails.patientName)
+                    ? "Patient Name is Mandatory"
+                    : null
+                }
+                color='primary'
+                fullWidth
+                value={recordDetails.patientName}
+                onChange={(e) => handleRecordPatientNameChange(e.target.value)}
+              />
+            </Col>
 
-          <Col span={24}>
-            <TextField
-              variant='outlined'
-              color='primary'
-              placeholder='Treatment'
-              name='Treatment'
-              label='Treatment'
-              value={recordDetails.history.treatmentDetails.treatment}
-              onChange={(e) => handleRecordTreatmentChange(e.target.value)}
-              fullWidth
-            />
-          </Col>
-        </Row>
+            <Col span={24}>
+              <TextField
+                variant='outlined'
+                placeholder='Address'
+                label='Address'
+                color='primary'
+                value={recordDetails.address}
+                onChange={(e) => handleRecordAddressChange(e.target.value)}
+                fullWidth
+              />
+            </Col>
+
+            <Col span={24}>
+              <TextField
+                variant='outlined'
+                placeholder='Age Range'
+                label='Age Range'
+                color='primary'
+                value={recordDetails.ageRange}
+                onChange={(e) => handleRecordAgeRangeChange(e.target.value)}
+                fullWidth
+              />
+            </Col>
+          </Row>
+        ) : (
+          <Row gutter={[10, 10]}>
+            <Col span={24}>
+              <TextField
+                variant='outlined'
+                color='primary'
+                placeholder='Diagnosis'
+                name='Diagnosis'
+                label='Diagnosis'
+                value={recordDetails.history.diagnosis}
+                onChange={(e) => handleRecordDiagnosisChange(e.target.value)}
+                fullWidth
+              />
+            </Col>
+
+            <Col span={24}>
+              <TextField
+                variant='outlined'
+                color='primary'
+                placeholder='Treatment'
+                name='Treatment'
+                label='Treatment'
+                value={recordDetails.history.treatmentDetails.treatment}
+                onChange={(e) => handleRecordTreatmentChange(e.target.value)}
+                fullWidth
+              />
+            </Col>
+          </Row>
+        )}
       </Modal>
     );
   };
@@ -298,6 +378,19 @@ const treatmentHistory = () => {
                 total: total,
                 showSizeChanger: false,
               }}
+              onRow={(r, i) => ({
+                onClick: (e) => {
+                  // console.log(e);
+                  if (
+                    e.target.id !== "update-btn" &&
+                    e.target.id !== "delete-btn"
+                  ) {
+                    openModal();
+                    setupdateUser(true);
+                    setrecordDetails(r);
+                  }
+                },
+              })}
               style={{ width: "100%" }}
               bordered
               columns={columns}
