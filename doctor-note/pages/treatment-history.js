@@ -184,7 +184,7 @@ const treatmentHistory = () => {
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
-    dispatch(fetchPatientAction(data, count - 1));
+    dispatch(fetchPatientAction(data, count));
   };
 
   useEffect(() => {
@@ -206,7 +206,7 @@ const treatmentHistory = () => {
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
-    dispatch(fetchPatientAction(data, count - 1));
+    dispatch(fetchPatientAction(data, count ));
   }, [count]);
 
   useEffect(() => {
