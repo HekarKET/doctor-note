@@ -23,34 +23,23 @@ export function patientReducer(state = initialState, action) {
     case FETCH_PATIENTS:
       return {
         ...state,
-        error: action.error || state.error,
-        loading: action.loading || state.loading,
-        sucess: action.sucess || state.sucess,
-        action: action.action || state.action,
+        error: action.error ,
+        loading: action.loading ,
+        sucess: action.sucess ,
+        action: action.action ,
+    
         patients: action.patients || state.patients,
         currentPatient: action.currentPatient || state.currentPatient,
         total: action.total == -1 ? state.total : action.total || state.total,
       };
 
-    case DELETE_PATIENT_TREATMENT:
-      return {
-        ...state,
-        error: action.error || state.error,
-        loading: action.loading || state.loading,
-        sucess: action.sucess || state.sucess,
-        action: action.action || state.action,
-        patients: action.patients || state.patients,
-        currentPatient: action.currentPatient || state.currentPatient,
-        total: state.total - 1,
-      };
-
     case FETCH_PATIENT_NAMES:
       return {
         ...state,
-        error: action.error || state.error,
-        loading: action.loading || state.loading,
-        sucess: action.sucess || state.sucess,
-        action: action.action || state.action,
+        error: action.error ,
+        loading: action.loading ,
+        sucess: action.sucess ,
+        action: action.action ,
         patientNames: action.patientNames || state.patientNames,
         action: action.action || state.action,
       };
@@ -77,6 +66,18 @@ export function patientReducer(state = initialState, action) {
         sucess: action.sucess,
         // patientNames: action.patientNames || state.patientNames,
         action: action.action || state.action,
+      };
+
+    case DELETE_PATIENT_TREATMENT:
+      return {
+        ...state,
+        error: action.error ,
+        loading: action.loading ,
+        sucess: action.sucess,
+        action: action.action ,
+        patients: action.patients || state.patients,
+        currentPatient: action.currentPatient || state.currentPatient,
+        total: state.total - 1,
       };
 
     case UPDATE_PATIENT_TREATMENT:

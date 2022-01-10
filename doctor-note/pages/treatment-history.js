@@ -225,6 +225,17 @@ const treatmentHistory = () => {
         }
       }
     }
+
+    if (patientReducer.action === "DELETE_PATIENT_TREATMENT") {
+      if (!patientReducer.loading) {
+        if (patientReducer.sucess) {
+          openNotification("success", "Treatment Deleted");
+        } else {
+          openNotification("error", "Sorry! Something went wrong.");
+          // console.log(patientReducer);
+        }
+      }
+    }
   }, [
     patientReducer.action,
     patientReducer.success,
