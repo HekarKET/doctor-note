@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import {
   addPatientAction,
   addTreatmentAction,
+  fetchAllPatientsNameAction,
   fetchPatientNamesAction,
 } from "../redux/actions/patientAction";
 import { useSelector } from "react-redux";
@@ -45,10 +46,8 @@ const addPatient = () => {
   };
 
   useEffect(() => {
-    let data = {
-      _id: userReducer.user._id,
-    };
-    dispatch(fetchPatientNamesAction(data));
+
+    dispatch(fetchAllPatientsNameAction());
   }, []);
 
   useEffect(() => {

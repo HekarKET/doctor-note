@@ -21,7 +21,7 @@ const treatmentHistory = () => {
   const [patients, setpatients] = useState([]);
   const [patientNames, setpatientNames] = useState([]);
   const [total, settotal] = useState(0);
-  const [count, setcount] = useState(0);
+  const [count, setcount] = useState(1);
   const [recordDetails, setrecordDetails] = useState({
     _id: "61d021b832257bd886b7c445",
     patientName: "akhilesh ketkars",
@@ -184,7 +184,7 @@ const treatmentHistory = () => {
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
-    dispatch(fetchPatientAction(data, count));
+    dispatch(fetchPatientAction(data, count-1));
   };
 
   useEffect(() => {
@@ -206,7 +206,7 @@ const treatmentHistory = () => {
       startDate: dateFilter ? dateFilter[0].format("MM/DD/YYYY") : null,
       endDate: dateFilter ? dateFilter[1].format("MM/DD/YYYY") : null,
     };
-    dispatch(fetchPatientAction(data, count ));
+    dispatch(fetchPatientAction(data, count-1 ));
   }, [count]);
 
   useEffect(() => {

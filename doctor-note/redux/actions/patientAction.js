@@ -2,6 +2,7 @@ import {
   addPatientApi,
   addTreatmentApi,
   deletePatientTreatmentApi,
+  fetchAllPatientsNameApi,
   fetchPatientsApi,
   fetchPatientsNameApi,
   updatePatientTreatmentApi,
@@ -111,6 +112,41 @@ export const fetchPatientNamesAction = (id) => {
       action: "FETCH_PATIENT_NAMES",
     });
     fetchPatientsNameApi(id)
+      .then((res) => res.data)
+      .then((data) => {
+        dispatch({
+          type: FETCH_PATIENT_NAMES,
+          error: false,
+          loading: false,
+          sucess: true,
+          patientNames: data,
+          action: "FETCH_PATIENT_NAMES",
+        });
+      })
+      .catch((err) => {
+        catchError(err);
+        dispatch({
+          type: FETCH_PATIENT_NAMES,
+          error: true,
+          loading: false,
+          sucess: false,
+          action: "FETCH_PATIENT_NAMES",
+        });
+      });
+  };
+};
+
+
+export const fetchAllPatientsNameAction = (id) => {
+  return function (dispatch) {
+    dispatch({
+      type: FETCH_PATIENT_NAMES,
+      error: false,
+      loading: true,
+      sucess: false,
+      action: "FETCH_PATIENT_NAMES",
+    });
+    fetchAllPatientsNameApi(id)
       .then((res) => res.data)
       .then((data) => {
         dispatch({

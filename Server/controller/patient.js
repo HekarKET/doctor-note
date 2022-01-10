@@ -107,6 +107,25 @@ export const getPatientNameByDoctor = async (req, res, next) => {
   }
 };
 
+export const getPatientNames = async (req, res, next) => {
+  try {
+    const patients = await patientModel.aggregate([
+      // { $unwind: "$history" },
+      {
+        $match: {
+          // "history.treatmentDetails.doctor": mongoose.Types.ObjectId(_id),
+        },
+      },
+      {
+        $group: { _id: "$_id", patientName: { $first: "$patientName" } },
+      },
+    ]);
+    res.status(200).send(patients);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const addPatient = async (req, res, next) => {
   try {
     const body = req.body;
@@ -208,7 +227,7 @@ export const addPatientTreatmentDetails = async (req, res, next) => {
       // console.log(patient);
       const patientUpdated = await patientModel.findByIdAndUpdate(
         _id,
-        patient,
+        { $push: { history: newDetails } },
         { new: true }
       );
       res
@@ -247,7 +266,7 @@ export const updatePatientTreatmentDetails = async (req, res, next) => {
       patientUpdated.history = patientHistory;
       patientUpdated = await patientModel.findByIdAndUpdate(
         _id,
-        patientUpdated,
+        { $push: { history: patientHistory } },
         { new: true }
       );
       // console.log(patientUpdated);
