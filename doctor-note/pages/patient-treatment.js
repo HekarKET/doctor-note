@@ -37,10 +37,10 @@ const addPatient = () => {
       const data = {
         patientName,
       };
-      if(ageRange!==""){
+      if (ageRange !== "") {
         data.ageRange = ageRange;
       }
-      if(address!==""){
+      if (address !== "") {
         data.address = address;
       }
       dispatch(addPatientAction(data));
@@ -52,7 +52,6 @@ const addPatient = () => {
   };
 
   useEffect(() => {
-
     dispatch(fetchAllPatientsNameAction());
   }, []);
 
@@ -122,16 +121,16 @@ const addPatient = () => {
 
   return (
     <>
-      <div className='container'>
-        <div className='dashboard-container'>
-          <div className='content'>
-            <button onClick={handleAddPatient} className='add-btn'>
+      <div className="container">
+        <div className="dashboard-container">
+          <div className="content">
+            <button onClick={handleAddPatient} className="add-btn">
               Add Patient
             </button>
 
             <TextField
-              placeholder='Patient Name *'
-              variant='filled'
+              placeholder="Patient Name *"
+              variant="filled"
               error={checkIncomplete(patientName)}
               helperText={
                 checkIncomplete(patientName)
@@ -139,30 +138,30 @@ const addPatient = () => {
                   : null
               }
               required
-              color='primary'
+              color="primary"
               fullWidth
               value={patientName}
               onChange={(e) => setpatientName(e.target.value)}
             />
 
             <TextField
-              placeholder='Address'
-              variant='filled'
-              color='primary'
+              placeholder="Address"
+              variant="filled"
+              color="primary"
               value={address}
               onChange={(e) => setaddress(e.target.value)}
               fullWidth
             />
             <TextField
-              placeholder='Age Range'
-              variant='filled'
-              color='primary'
+              placeholder="Age Range"
+              variant="filled"
+              color="primary"
               value={ageRange}
               onChange={(e) => setageRange(e.target.value)}
               fullWidth
             />
 
-            <button className='add-btn' onClick={handleAddTreatment}>
+            <button className="add-btn" onClick={handleAddTreatment}>
               Add Treatment
             </button>
 
@@ -170,7 +169,7 @@ const addPatient = () => {
               value={patientName2}
               options={patientNames}
               // placeholder='Patient Names'
-              variant='filled'
+              variant="filled"
               onChange={(e, v) => setpatientName2(v)}
               getOptionLabel={(option) => option.patientName}
               fullWidth
@@ -186,30 +185,15 @@ const addPatient = () => {
                       ? "patient name is Mandatory"
                       : null
                   }
-                  label='Patient Name'
-                  variant='filled'
+                  label="Patient Name"
+                  variant="filled"
                 />
               )}
             />
-
             <TextField
-              placeholder='Treatment*'
-              variant='filled'
-              color='primary'
-              error={checkIncomplete2(treatment)}
-              helperText={
-                checkIncomplete2(treatment)
-                  ? "Treatment Name is Mandatory"
-                  : null
-              }
-              value={treatment}
-              onChange={(e) => settreatment(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              placeholder='Diagnosis*'
-              variant='filled'
-              color='primary'
+              placeholder="Diagnosis*"
+              variant="filled"
+              color="primary"
               error={checkIncomplete2(diagnosis)}
               helperText={
                 checkIncomplete2(diagnosis)
@@ -218,6 +202,20 @@ const addPatient = () => {
               }
               value={diagnosis}
               onChange={(e) => setdiagnosis(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              placeholder="Treatment*"
+              variant="filled"
+              color="primary"
+              error={checkIncomplete2(treatment)}
+              helperText={
+                checkIncomplete2(treatment)
+                  ? "Treatment Name is Mandatory"
+                  : null
+              }
+              value={treatment}
+              onChange={(e) => settreatment(e.target.value)}
               fullWidth
             />
           </div>

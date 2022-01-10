@@ -34,6 +34,7 @@ export const fetchPatientsNameApi = (data) => api.post("/patient/name", data);
 export const fetchAllPatientsNameApi = () => api.get("/patient/name");
 export const addPatientApi = (data) => api.post("/patient/add", data);
 export const addTreatmentApi = (data) => api.post("/patient/add/diagnosis", data);
+export const updatePatientApi = (data) => api.post("/patient/update", data);
 export const deletePatientTreatmentApi = (data, count) => api.post("/patient/delete/diagnosis", data);
 export const updatePatientTreatmentApi = (data, count) => api.post("/patient/update/diagnosis", data);
 

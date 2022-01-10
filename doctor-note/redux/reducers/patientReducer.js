@@ -5,6 +5,7 @@ import {
   ADD_PATIENT,
   ADD_TREATMENT,
   UPDATE_PATIENT_TREATMENT,
+  UPDATE_PATIENT,
 } from "../constants/constant";
 
 const initialState = {
@@ -54,6 +55,18 @@ export function patientReducer(state = initialState, action) {
         action: action.action || state.action,
         message: action.message || state.message,
       };
+
+      case UPDATE_PATIENT:
+        return {
+          ...state,
+          error: action.error,
+          loading: action.loading,
+          sucess: action.sucess,
+          // patientNames: action.patientNames || state.patientNames,
+          action: action.action || state.action,
+          message: action.message || state.message,
+          patients: action.patients || state.patients
+        };
 
     // Create case for ADD_TREATMENT
     // Accept all the action properties

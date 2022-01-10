@@ -9,6 +9,7 @@ import {
   deletPatientDetailsAction,
   fetchPatientAction,
   fetchPatientNamesAction,
+  updatePatientAction,
   updateTreatmentAction,
 } from "../redux/actions/patientAction";
 import withAuth from "../util/auth";
@@ -169,6 +170,7 @@ const treatmentHistory = () => {
       if (updateUser) {
 
         //disaptch action to update patient
+        dispatch(updatePatientAction(recordDetails)) ;
 
       } else {
         dispatch(updateTreatmentAction(recordDetails));
@@ -315,6 +317,17 @@ const treatmentHistory = () => {
       if (!patientReducer.loading) {
         if (patientReducer.sucess) {
           openNotification("success", "Treatment updated");
+        } else {
+          openNotification("error", "Sorry! Something went wrong.");
+          // console.log(patientReducer);
+        }
+      }
+    }
+
+    if (patientReducer.action === "UPDATE_PATIENT") {
+      if (!patientReducer.loading) {
+        if (patientReducer.sucess) {
+          openNotification("success", "Patient updated");
         } else {
           openNotification("error", "Sorry! Something went wrong.");
           // console.log(patientReducer);

@@ -5,6 +5,7 @@ import {
   fetchAllPatientsNameApi,
   fetchPatientsApi,
   fetchPatientsNameApi,
+  updatePatientApi,
   updatePatientTreatmentApi,
 } from "../../util/api";
 import { catchError } from "../../util/util";
@@ -14,6 +15,7 @@ import {
   DELETE_PATIENT_TREATMENT,
   FETCH_PATIENTS,
   FETCH_PATIENT_NAMES,
+  UPDATE_PATIENT,
   UPDATE_PATIENT_TREATMENT,
 } from "../constants/constant";
 
@@ -136,7 +138,6 @@ export const fetchPatientNamesAction = (id) => {
   };
 };
 
-
 export const fetchAllPatientsNameAction = (id) => {
   return function (dispatch) {
     dispatch({
@@ -209,6 +210,59 @@ export const addPatientAction = (data) => {
           sucess: false,
           action: "ADD_PATIENT",
           message: err.response.data.message,
+        });
+      });
+  };
+};
+
+export const updatePatientAction = (data) => {
+  return function (dispatch, getStore) {
+    dispatch({
+      type: UPDATE_PATIENT,
+      sucess: false,
+      error: false,
+      loading: true,
+      action: "UPDATE_PATIENT",
+    });
+
+    updatePatientApi(data)
+      .then((res) => res.data)
+      .then((resData) => {
+        let patients = getStore().patientReducer.patients;
+        patients = patients.map((item)=> {
+          if(item._id === data._id){
+            if(data.patientName){
+              item.patientName = data.patientName
+            }
+            if(data.ageRange){
+              item.ageRange = data.ageRange
+            }
+            if(data.address){
+              item.address = data.address
+            }
+          }
+          return item;
+        }) 
+        console.log({patients})
+        console.log({data})
+        dispatch({
+          type: UPDATE_PATIENT,
+          sucess: true,
+          error: false,
+          loading: false,
+          patients: patients,
+          action: "UPDATE_PATIENT",
+        });
+      })
+
+      .catch((err) => {
+        catchError(err);
+        dispatch({
+          type: UPDATE_PATIENT,
+          error: true,
+          loading: false,
+          sucess: false,
+          action: "UPDATE_PATIENT",
         });
       });
   };
