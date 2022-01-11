@@ -6,6 +6,7 @@ Doctor note is a cloud-based hospital management solution, which helps medical c
 
 <p>Make sure you have <a href="https://nodejs.org">Node.js</a> installed</p>
 <h3>Installing and Starting the Website<h3>
+   
 1. Clone the repo
    ```sh
    git clone https://github.com/HekarKET/doctor-note
@@ -23,6 +24,7 @@ Doctor note is a cloud-based hospital management solution, which helps medical c
    npm run dev
    ```
 <h3>Installing and Starting the Server<h3>
+   
 1. Clone the repo
    ```sh
    git clone https://github.com/HekarKET/doctor-note
