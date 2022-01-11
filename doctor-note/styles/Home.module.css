@@ -8,7 +8,7 @@
 }
 
 .login_container {
-  height: 80%;
+  height: 100vh;
   width: 80%;
   z-index: 2;
   /* background-color: blue; */
