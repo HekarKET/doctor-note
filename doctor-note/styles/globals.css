@@ -103,6 +103,15 @@ nav ul .active {
   background-color: rgb(145, 145, 243);
 }
 
+nav .fas {
+  display: none;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 .dashboard-container {
   padding: 15px;
   background-color: var(--light-blue);
@@ -166,18 +175,15 @@ nav ul .active {
   height: 100%;
 }
 
-.filters > *{
+.filters > * {
   width: 100%;
 }
-
-
 
 .treatment-option {
   overflow-y: scroll;
   height: 90vh;
   justify-content: inherit;
 }
-
 
 .treatment-option .search-btn {
   font-size: 15px;
@@ -199,12 +205,22 @@ nav ul .active {
   color: white;
 }
 
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1220px) {
   nav {
-display: none;
+    height: 100%;
+    width: 100vw;
+    margin-bottom: 20px;
   }
-  
+
+  nav .fas  {
+    display: flex;
+  }
+
+  nav .flex-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .dashboard-container {
     margin: 0;
     width: 100%;
@@ -219,7 +235,7 @@ display: none;
     margin-bottom: 10px;
   }
 
-  .container{ 
+  .container {
     height: 100vh;
     width: 100vw;
   }
