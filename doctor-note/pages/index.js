@@ -1,5 +1,6 @@
 // import Head from 'next/head'
 import { TextField } from "@material-ui/core";
+import { Spin } from "antd";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -47,8 +48,8 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if(!isEmpty(userReducer.user)){
-        window.location.href = '/profile'
+      if (!isEmpty(userReducer.user)) {
+        window.location.href = "/profile";
       }
     }
   }, []);
@@ -78,6 +79,7 @@ export default function Home() {
                 <TextField
                   variant='filled'
                   color='primary'
+                  type={'password'}
                   error={checkIncomplete(password)}
                   helperText={
                     checkIncomplete(password) ? "Please enter password" : ""
@@ -87,7 +89,13 @@ export default function Home() {
                   onChange={(e) => setpassword(e.target.value)}
                   fullWidth
                 />
-                <button onClick={handleLogin}>LOGIN</button>
+                {userReducer.action === "LOGIN_USER" && userReducer.loading ? (
+                  <button>
+                    <Spin />
+                  </button>
+                ) : (
+                  <button onClick={handleLogin}>LOGIN</button>
+                )}
               </div>
 
               <span

@@ -30,6 +30,7 @@ export function userReducer(state = intialState, action) {
         loading: action.loading,
         error: action.error,
         success: action.success,
+        action: action.action
       };
 
     case LOGIN_USER:
@@ -38,6 +39,7 @@ export function userReducer(state = intialState, action) {
         loading: action.loading,
         error: action.error,
         success: action.success,
+        action: action.action
       };
 
     case REGISTER_USER:
@@ -46,7 +48,8 @@ export function userReducer(state = intialState, action) {
         loading: action.loading,
         error: action.error,
         success: action.success,
-        message: action.message
+        message: action.message,
+        action: action.action
       };
       case UPDATE_USER:
         return {
@@ -54,9 +57,10 @@ export function userReducer(state = intialState, action) {
           loading: action.loading,
           error: action.error,
           success: action.success,
-          message: action.message
+          message: action.message,
+          action: action.action
         };
-        3
+      
     default:
       return state;
   }

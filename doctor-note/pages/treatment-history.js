@@ -1,6 +1,6 @@
 import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import { Table, Modal, DatePicker, Row, Col } from "antd";
+import { Table, Modal, DatePicker, Row, Col, Spin } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -63,11 +63,10 @@ const treatmentHistory = () => {
   };
 
   const columns = [
-
     {
       title: "Name",
       dataIndex: "patientName",
-      render: (text, record) =>  `${text} #${record._id}`
+      render: (text, record) => `${text} #${record._id}`,
     },
     {
       title: "Treatment",
@@ -95,15 +94,28 @@ const treatmentHistory = () => {
     {
       title: "Delete",
       render: (text, record) => (
-        <button
-          id='delete-btn'
-          className='delete-btn'
-          onClick={() =>
-            deleteTreatmentDetail(text._id, record.history._id, record)
-          }
-        >
-          Delete
-        </button>
+        <>
+          {patientReducer.action === "DELETE_PATIENT_TREATMENT" &&
+          patientReducer.loading ? (
+            <button
+              id='delete-btn'
+              className='delete-btn'
+        
+            >
+              <Spin/>
+            </button>
+          ) : (
+            <button
+              id='delete-btn'
+              className='delete-btn'
+              onClick={() =>
+                deleteTreatmentDetail(text._id, record.history._id, record)
+              }
+            >
+              Delete
+            </button>
+          )}
+        </>
       ),
     },
     {
@@ -185,6 +197,7 @@ const treatmentHistory = () => {
           handleUpdate();
           closeModal();
         }}
+        confirmLoading={patientReducer.loading}
         onCancel={closeModal}
         width={1500}
       >
@@ -412,6 +425,7 @@ const treatmentHistory = () => {
                   }
                 },
               })}
+              loading={patientReducer.loading}
               style={{ width: "100%" }}
               bordered
               columns={columns}

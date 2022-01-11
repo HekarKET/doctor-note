@@ -1,5 +1,6 @@
 // import Head from 'next/head'
 import { TextField } from "@material-ui/core";
+import { Spin } from 'antd';
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -11,7 +12,7 @@ import {
 import styles from "../styles/Home.module.css";
 import { stateDistrictData } from "../util/rawData";
 import SelectCustom from "../util/Select";
-import { isEmpty } from '../util/util';
+import { isEmpty } from "../util/util";
 
 export default function register() {
   const [userName, setuserName] = useState("");
@@ -79,10 +80,9 @@ export default function register() {
 
   useEffect(() => {
     let list = data.filter((item) => item.state === state)[0];
-    if(list){
+    if (list) {
       setdistrictList(list.districts);
     }
-    
   }, [state]);
 
   return (
@@ -174,15 +174,22 @@ export default function register() {
                 onChange={(e) => setpassword(e.target.value)}
                 fullWidth
               />
-              <button
-                size='large'
-                color='primary'
-                variant='contained'
-                fullWidth
-                onClick={handleLogin}
-              >
-                REGISTER
-              </button>
+
+              {userReducer.action === "REGISTER_USER" && userReducer.loading ? (
+                <button>
+                  <Spin />
+                </button>
+              ) : (
+                <button
+                  size='large'
+                  color='primary'
+                  variant='contained'
+                  fullWidth
+                  onClick={handleLogin}
+                >
+                  REGISTER
+                </button>
+              )}
 
               {/* <span>{userReducer.user.name}</span> */}
               <span className={styles.error}>

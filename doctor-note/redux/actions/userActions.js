@@ -27,6 +27,7 @@ export const loginUserAction = (data) => {
       loading: true,
       error: false,
       success: false,
+      action: "LOGIN_USER",
     });
     loginUserApi(data)
       .then((res) => {
@@ -42,6 +43,7 @@ export const loginUserAction = (data) => {
             loading: false,
             error: false,
             success: true,
+            action: "LOGIN_USER",
           });
         } else {
           dispatch({
@@ -50,6 +52,7 @@ export const loginUserAction = (data) => {
             loading: false,
             error: false,
             success: false,
+            action: "LOGIN_USER",
           });
         }
       })
@@ -60,6 +63,7 @@ export const loginUserAction = (data) => {
           loading: false,
           error: true,
           success: false,
+          action: "LOGIN_USER",
         })
       );
   };
@@ -73,6 +77,7 @@ export const registerUserAction = (data) => {
       loading: true,
       error: false,
       success: false,
+      action: "REGISTER_USER",
     });
     registerUserApi(data)
       .then((res) => {
@@ -88,6 +93,7 @@ export const registerUserAction = (data) => {
             loading: false,
             error: false,
             success: true,
+            action: "REGISTER_USER",
           });
         }
       })
@@ -100,6 +106,7 @@ export const registerUserAction = (data) => {
           error: true,
           success: false,
           message: err.response.data.message,
+          action: "REGISTER_USER",
         });
       });
   };
@@ -113,6 +120,7 @@ export const updateUserAction = (data) => {
       loading: true,
       error: false,
       success: false,
+      action: "UPDATE_USER",
     });
 
     updateUserApi(data)
@@ -128,6 +136,7 @@ export const updateUserAction = (data) => {
           loading: false,
           error: false,
           success: true,
+          action: "UPDATE_USER",
         });
       })
       .catch((err) => {
@@ -139,6 +148,7 @@ export const updateUserAction = (data) => {
           error: true,
           success: false,
           message: err.response.data.message,
+          action: "UPDATE_USER",
         });
       });
   };

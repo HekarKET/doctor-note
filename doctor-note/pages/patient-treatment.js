@@ -11,7 +11,7 @@ import {
   fetchPatientNamesAction,
 } from "../redux/actions/patientAction";
 import { useSelector } from "react-redux";
-import {Row, Col} from 'antd'
+import { Row, Col, Spin } from "antd";
 import { openNotification } from "../util/notification";
 
 const addPatient = () => {
@@ -125,9 +125,16 @@ const addPatient = () => {
       <div className='container'>
         <div className='dashboard-container'>
           <div className='content'>
-            <button onClick={handleAddPatient} className='add-btn'>
-              Add Patient
-            </button>
+            {patientReducer.action === "ADD_PATIENT" &&
+            patientReducer.loading ? (
+              <button className='add-btn'>
+                <Spin />
+              </button>
+            ) : (
+              <button onClick={handleAddPatient} className='add-btn'>
+                Add Patient
+              </button>
+            )}
 
             <TextField
               placeholder='Patient Name *'
@@ -161,10 +168,16 @@ const addPatient = () => {
               onChange={(e) => setageRange(e.target.value)}
               fullWidth
             />
-
-            <button className='add-btn' onClick={handleAddTreatment}>
-              Add Treatment
-            </button>
+            {patientReducer.action === "ADD_TREATMENT" &&
+            patientReducer.loading ? (
+              <button className='add-btn'>
+                <Spin />
+              </button>
+            ) : (
+              <button className='add-btn' onClick={handleAddTreatment}>
+                Add Treatment
+              </button>
+            )}
 
             <Autocomplete
               value={patientName2}
@@ -177,11 +190,14 @@ const addPatient = () => {
                 <>
                   {" "}
                   <Row align='middle' justify='start'>
-                    <Col style={{fontWeight:'bold'}} span={10}>{option.patientName}</Col>
-                  
-                  <Col style={{color:'red'}} span={10}> {  "#" + `${option._id}`}</Col>
+                    <Col style={{ fontWeight: "bold" }} span={10}>
+                      {option.patientName}
+                    </Col>
 
-                
+                    <Col style={{ color: "red" }} span={10}>
+                      {" "}
+                      {"#" + `${option._id}`}
+                    </Col>
                   </Row>
                 </>
               )}

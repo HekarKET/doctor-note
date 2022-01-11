@@ -1,9 +1,10 @@
 import { TextField } from "@material-ui/core";
+import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserAction } from "../redux/actions/userActions";
 import withAuth from "../util/auth";
-import {notification, openNotification} from "../util/notification";
+import { notification, openNotification } from "../util/notification";
 import { stateDistrictData } from "../util/rawData";
 import SelectCustom from "../util/Select";
 
@@ -69,7 +70,7 @@ const profile = () => {
 
   useEffect(() => {
     if (userReducer.success) {
-      openNotification('success',"Profile updated");
+      openNotification("success", "Profile updated");
     }
   }, [userReducer.success]);
 
@@ -165,15 +166,27 @@ const profile = () => {
                 onChange={(e) => setpassword(e.target.value)}
                 fullWidth
               /> */}
-            <button
-              size='large'
-              color='primary'
-              variant='contained'
-              fullWidth
-              onClick={handleUpdate}
-            >
-              UPDATE
-            </button>
+
+            {userReducer.action === "UPDATE_USER" && userReducer.loading ? (
+              <button
+                size='large'
+                color='primary'
+                variant='contained'
+                fullWidth
+              >
+                <Spin />
+              </button>
+            ) : (
+              <button
+                size='large'
+                color='primary'
+                variant='contained'
+                fullWidth
+                onClick={handleUpdate}
+              >
+                UPDATE
+              </button>
+            )}
           </div>
         </div>
       </div>
