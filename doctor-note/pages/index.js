@@ -56,7 +56,7 @@ export default function Home() {
 
   return (
     <>
-      <div className='container'>
+    
         <div className={styles.background}>
           <div className={styles.login_container}>
             <div className={styles.left_content}>
@@ -110,7 +110,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      
     </>
   );
 }

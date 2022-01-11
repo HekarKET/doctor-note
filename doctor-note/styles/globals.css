@@ -198,3 +198,32 @@ nav ul .active {
   border: none;
   color: white;
 }
+
+
+@media screen and (max-width: 600px) {
+  nav {
+display: none;
+  }
+  
+  .dashboard-container {
+    margin: 0;
+    width: 100%;
+  }
+
+  .treatment-option .filters {
+    flex-direction: column;
+  }
+
+  .treatment-option .search-btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .container{ 
+    height: 100vh;
+    width: 100vw;
+  }
+  .ant-table {
+    font-size: 15px !important;
+  }
+}
