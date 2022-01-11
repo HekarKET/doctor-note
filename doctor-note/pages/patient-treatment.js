@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { Row, Col, Spin } from "antd";
 import { openNotification } from "../util/notification";
 
-const addPatient = () => {
+const AddPatient = () => {
   const [patientName, setpatientName] = useState("");
   const [patientNames, setpatientNames] = useState([]);
   const [ageRange, setageRange] = useState("");

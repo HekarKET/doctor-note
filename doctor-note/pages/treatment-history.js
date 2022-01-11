@@ -16,7 +16,7 @@ import withAuth from "../util/auth";
 import { openNotification } from "../util/notification";
 import { isEmpty } from "../util/util";
 
-const treatmentHistory = () => {
+const TreatmentHistory = () => {
   const patientReducer = useSelector((state) => state.patientReducer);
   const userReducer = useSelector((state) => state.userReducer);
   const [patients, setpatients] = useState([]);

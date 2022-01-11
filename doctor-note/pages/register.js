@@ -14,7 +14,7 @@ import { stateDistrictData } from "../util/rawData";
 import SelectCustom from "../util/Select";
 import { isEmpty } from "../util/util";
 
-export default function register() {
+export default function Register() {
   const [userName, setuserName] = useState("");
   const [name, setname] = useState("");
   const [state, setstate] = useState("Maharashtra");

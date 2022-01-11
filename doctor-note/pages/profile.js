@@ -8,7 +8,7 @@ import { notification, openNotification } from "../util/notification";
 import { stateDistrictData } from "../util/rawData";
 import SelectCustom from "../util/Select";
 
-const profile = () => {
+const Profile = () => {
   const userReducer = useSelector((state) => state.userReducer);
   const [userName, setuserName] = useState("");
   const [name, setname] = useState("");
