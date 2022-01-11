@@ -26,7 +26,7 @@ export function userReducer(state = intialState, action) {
   switch (action.type) {
     case FETCH_USER:
       return {
-        user: action.payload,
+        user: action.payload || state.user,
         loading: action.loading,
         error: action.error,
         success: action.success,

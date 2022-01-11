@@ -16,7 +16,7 @@ export const getSingleDoctor = async (req, res, next) => {
   try {
     const id = req.params.id;
     const doctor = await doctorModel.findById(id);
-    res.status(200).send({ doctor });
+    res.status(200).send({ token: getToken(doctor) });
   } catch (error) {
     next(error);
   }

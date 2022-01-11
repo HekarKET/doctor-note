@@ -1,5 +1,10 @@
 import jwtDecode from "jwt-decode";
-import { loginUserApi, registerUserApi, updateUserApi } from "../../util/api";
+import {
+  fetchUserApi,
+  loginUserApi,
+  registerUserApi,
+  updateUserApi,
+} from "../../util/api";
 import { catchError } from "../../util/util";
 import {
   FETCH_USER,
@@ -8,14 +13,42 @@ import {
   UPDATE_USER,
 } from "../constants/constant";
 
-export const fetchSingleUserAction = () => {
+export const fetchSingleUserAction = (data) => {
   return function (dispatch) {
     dispatch({
       type: FETCH_USER,
-      payload: "akhilesh",
-      loading: false,
+      success: false,
+      loading: true,
       error: false,
+      action: "FETCH_USER",
     });
+
+    fetchUserApi(data)
+      .then((res) => res.data)
+      .then((data) => {
+        let user = jwtDecode(data.token);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("user", data.token);
+        }
+        dispatch({
+          type: FETCH_USER,
+          success: true,
+          loading: false,
+          error: false,
+          payload: user,
+          action: "FETCH_USER",
+        });
+      })
+      .catch((err) => {
+        catchError(err);
+        dispatch({
+          type: FETCH_USER,
+          success: false,
+          loading: false,
+          error: true,
+          action: "FETCH_USER",
+        });
+      });
   };
 };
 

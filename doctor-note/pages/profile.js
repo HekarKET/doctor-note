@@ -2,7 +2,7 @@ import { TextField } from "@material-ui/core";
 import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserAction } from "../redux/actions/userActions";
+import { fetchSingleUserAction, updateUserAction } from "../redux/actions/userActions";
 import withAuth from "../util/auth";
 import { notification, openNotification } from "../util/notification";
 import { stateDistrictData } from "../util/rawData";
@@ -66,13 +66,23 @@ const profile = () => {
     let list = data.map((item) => item.state);
     setstateList(list);
     setBasicDetails();
+    dispatch(fetchSingleUserAction(userReducer.user._id))
   }, []);
 
   useEffect(() => {
-    if (userReducer.success) {
+    if (userReducer.action === "FETCH_USER" && userReducer.loading) {
+      openNotification("success", "Profile fetched");
+    }
+
+    if (userReducer.action === "UPDATE_USER" && userReducer.loading) {
       openNotification("success", "Profile updated");
     }
-  }, [userReducer.success]);
+
+    if(userReducer.error){
+      openNotification("error", "Sorry! Something went wrong");
+
+    };
+  }, [userReducer.action,userReducer.success, userReducer.loading, userReducer.error ]);
 
   useEffect(() => {
     let list = data.filter((item) => item.state === state)[0];
@@ -80,6 +90,7 @@ const profile = () => {
       setdistrictList(list.districts);
     }
   }, [state]);
+  
 
   return (
     <>
