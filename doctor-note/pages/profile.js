@@ -205,4 +205,4 @@ const Profile = () => {
   );
 };
 
-export default withAuth(profile);
+export default withAuth(Profile);

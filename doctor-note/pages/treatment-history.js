@@ -443,4 +443,4 @@ const TreatmentHistory = () => {
   );
 };
 
-export default withAuth(treatmentHistory);
+export default withAuth(TreatmentHistory);

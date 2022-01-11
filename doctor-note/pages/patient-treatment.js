@@ -255,4 +255,4 @@ const AddPatient = () => {
     </>
   );
 };
-export default withAuth(addPatient);
+export default withAuth(AddPatient);
