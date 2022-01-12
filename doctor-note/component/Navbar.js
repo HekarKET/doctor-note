@@ -30,7 +30,10 @@ export default function Navbar() {
       <nav>
         <div className='flex-row'>
           <div className='logo-website'>Doctor note</div>
-           <i onClick={()=>setopen(state=>!state)} className="fas fa-bars"></i> 
+          <i
+            onClick={() => setopen((state) => !state)}
+            className='fas fa-bars'
+          ></i>
         </div>
 
         {open && (
@@ -93,6 +96,20 @@ export default function Navbar() {
                 Logout
               </li>
             </ul>
+            <div className='buyMeACoffee'>
+              <a
+                className='buyButton'
+                target='_blank'
+                href='https://www.buymeacoffee.com/akhileshketkar'
+              >
+                <img
+                  className='coffeeImage'
+                  src='https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg'
+                  alt='Buy me a coffee'
+                />
+                <span className='coffeeButtonText'>Buy me a coffee</span>
+              </a>
+            </div>
           </>
         )}
       </nav>
