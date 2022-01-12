@@ -97,12 +97,8 @@ const TreatmentHistory = () => {
         <>
           {patientReducer.action === "DELETE_PATIENT_TREATMENT" &&
           patientReducer.loading ? (
-            <button
-              id='delete-btn'
-              className='delete-btn'
-        
-            >
-              <Spin/>
+            <button id='delete-btn' className='delete-btn'>
+              <Spin />
             </button>
           ) : (
             <button
@@ -321,9 +317,11 @@ const TreatmentHistory = () => {
   }, [count]);
 
   useEffect(() => {
-    setpatients(patientReducer.patients);
-    settotal(patientReducer.total);
-  }, [patientReducer.patients.length]);
+    if (patientReducer.action === "FETCH_PATIENTS") {
+      setpatients(patientReducer.patients);
+      settotal(patientReducer.total);
+    }
+  }, [patientReducer.patients.length, patientReducer.sucess]);
 
   useEffect(() => {
     if (patientReducer.action === "UPDATE_PATIENT_TREATMENT") {
