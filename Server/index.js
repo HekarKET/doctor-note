@@ -42,7 +42,7 @@ app.use("/pred", predRoute);
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500).send({ message: err.message || err });
-  console.log(err  ) ;
+  console.log(err) ;
 });
 
 Mongoose.connect(process.env.MONGODB_URL, {
