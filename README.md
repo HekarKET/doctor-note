@@ -12,6 +12,8 @@ Doctor note is a cloud-based hospital management solution, which helps medical c
 The UI of the website is supereasy to use and consists of required help-texts and visual feedback.
 * **Filters** </br>
 Fetch required record easily using filters like date, name and diagnosis.
+* **Machine Learning** </br>
+Pneumonia detection using Chest X-ray.
 * **Profile Update functionality**</br>
 You can create a profile and personalize it in your own way by changing username, state and all kinds of normal stuffs.
 * **CRUD functionality**</br>
