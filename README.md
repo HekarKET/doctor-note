@@ -3,7 +3,7 @@
 Doctor note is a cloud-based hospital management solution, which helps medical colleges, pharmacies, laboratories and clinics to manage records related to patient registration, treatment and diagnosis.
 
 ## UI
-![image](https://user-images.githubusercontent.com/63460746/156383908-cf4d9380-fd8c-462a-bd0f-6f6e2ce8867c.png)
+![Screenshot (91)](https://user-images.githubusercontent.com/63460746/160647957-85150762-6f2c-4582-a806-6f5b7cc72490.png)
 
 
 ## Some Features
