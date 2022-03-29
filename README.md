@@ -62,6 +62,6 @@ In authentication, when the user successfully logs in using their credentials, a
    ```
  
 ## Future Scope
-   Multiple disease prediction
-   Optimize Server model prediction
-   Better UI
+   * Multiple disease prediction
+   * Optimize Server model prediction
+   * Better UI
