@@ -6,8 +6,17 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.js";
 import patientRoute from "./routes/patient.js";
+import predRoute from "./routes/xray-pred.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 //act as a body parser
 app.use(json({ limit: "10mb" }));
@@ -27,6 +36,8 @@ const PORT = process.env.PORT || 3005;
 
 app.use("/auth", authRoutes);
 app.use("/patient", patientRoute);
+app.use("/pred", predRoute);
+
 
 
 app.use((err, req, res, next) => {

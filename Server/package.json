@@ -1,12 +1,15 @@
 {
   "dependencies": {
+    "@tensorflow/tfjs": "^3.15.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "jimp": "^0.16.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.4",
+    "multer": "^1.4.4",
     "nodemon": "^2.0.15"
   },
   "name": "server",

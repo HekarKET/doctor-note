@@ -87,6 +87,18 @@ export default function Navbar() {
                 </li>
               </Link>
 
+
+              <Link href={"xray-pred"}>
+                <li
+                  // onClick={()=>navTo("profile")}
+                  className={
+                    currentRoute === "xray-pred" ? "nav-item active" : "nav-item"
+                  }
+                >
+                  xray-pred
+                </li>
+              </Link>
+
               <li
                 onClick={handleLogout}
                 className={
