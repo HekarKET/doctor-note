@@ -60,3 +60,8 @@ In authentication, when the user successfully logs in using their credentials, a
    ```sh
    npm start
    ```
+ 
+## Future Scope
+   Multiple disease prediction
+   Optimize Server model prediction
+   Better UI
