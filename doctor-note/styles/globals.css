@@ -206,6 +206,14 @@ nav .fas {
   color: white;
 }
 
+.xraypred {
+  display: block;
+  width: 100%;
+}
+.xraypred h1{
+  text-align: center;
+}
+
 @media screen and (max-width: 1220px) {
   nav {
     height: 100%;

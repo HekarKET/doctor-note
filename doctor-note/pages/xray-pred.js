@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Upload } from "antd";
+import { Button, message, Upload } from "antd";
 import { uploadImagepneumonia } from "../util/api";
 
 const beforeUploadStyle = {
@@ -34,6 +34,7 @@ const afterUploadStyle = {
 
 export default function testXray() {
  const [file, setfile] = useState(null);
+ const [resultPneumonia, setresultPneumonia] = useState(null);
 
  useEffect(() => {}, []);
 
@@ -55,31 +56,55 @@ export default function testXray() {
     onProgress({ percent: (event.loaded / event.total) * 100 }, file);
    },
   };
-  fmData.append("image", file);
-  const data = await uploadImagepneumonia(fmData);
-  console.log(data);
+  try {
+   fmData.append("image", file);
+   const data = await uploadImagepneumonia(fmData);
+   setresultPneumonia(data.data[0]);
+   onSuccess("Ok");
+  } catch (error) {
+   onError(error);
+  }
  };
 
  return (
   <div className="container">
-   <div className ="xraypred">
-    <h1>Upload X-Ray Image</h1>
-    <Upload
-     style={{ width: "100%" }}
-     listType={"picture"}
-     name="file"
-     onChange={handleOnChange}
-     customRequest={uploadImage}
-     // showUploadList={showImage}
-     // action='http://localhost:3005/pred/pneumonia'
-    >
-     <Button
-      // icon={!file ? <UploadOutlined /> : null}
-      style={!file ? beforeUploadStyle : afterUploadStyle}
-     >
-      UPLOAD
-     </Button>
-    </Upload>
+   <div className=" dashboard-container ">
+    <div className="content xraypred">
+     <h1>Upload X-Ray Image</h1>
+     <div className="upload-container">
+      <h2>Upload Xray image to detect pneumonia</h2>
+      
+      <Upload
+       style={{ width: "100%" }}
+       listType={"picture"}
+       name="file"
+       onChange={handleOnChange}
+       customRequest={uploadImage}
+       beforeUpload = {file => {
+         console.log(file.type)
+        const isPNG = file.type === 'image/jpeg';
+        if (!isPNG) {
+          message.error(`${file.name} is not a jpeg file`);
+        }
+        return isPNG || Upload.LIST_IGNORE;}
+      }
+      >
+       <Button
+        // icon={!file ? <UploadOutlined /> : null}
+        style={!file ? beforeUploadStyle : afterUploadStyle}
+       >
+        UPLOAD
+       </Button>
+       
+        {resultPneumonia === null
+         ? null
+         : resultPneumonia === 1
+         ? <h2 style={{color: " #4b9667"}}>Normal</h2>
+         : <h2 style={{color: "red"}}>Pneumonia detected</h2>}
+       
+      </Upload>
+     </div>
+    </div>
    </div>
   </div>
  );
