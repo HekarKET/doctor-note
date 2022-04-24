@@ -95,7 +95,7 @@ export default function Navbar() {
                     currentRoute === "xray-pred" ? "nav-item active" : "nav-item"
                   }
                 >
-                  xray-pred
+                  Xray prediction
                 </li>
               </Link>
 
